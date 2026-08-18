@@ -1,315 +1,467 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark" data-view="comfy">
+<html lang="zh-CN" data-theme="light" data-view="comfy">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>货袋子 · 资源列表（高保真设计稿）</title>
+<title>货袋子 · 资源筛选与资源列表（高保真设计稿 · 亮色版）</title>
 <style>
-/* ============================================================
-   货袋子 钢铁资源列表 · 高保真设计稿
-   设计要点：信息分层（6 视觉块 + 展开层）、规格为视觉主角、
-             供应商身份块合并、价格块独立、科技风深色 + 浅色双主题
-   ============================================================ */
+/* ==========================================================================
+   货袋子 · 钢铁资源筛选 + 资源列表  高保真设计稿
+   主题：亮色为主（品牌橙 #ff6a00）+ 冷色数据蓝做辅助，深色为可选
+   核心：信息分层（筛选三段语义分组 / 列表 6 视觉块 + 展开层）
+   ========================================================================== */
 
-/* ---------- 主题变量 ---------- */
 :root{
-  --r-sm:6px; --r-md:10px; --r-lg:14px; --r-xl:20px;
-  --font: "Inter","HarmonyOS Sans SC","PingFang SC","Microsoft YaHei","Source Han Sans SC",sans-serif;
-  --mono: "JetBrains Mono","SF Mono","Cascadia Code","Roboto Mono",ui-monospace,monospace;
-  --dur:.18s;
-  --up:#ff4d5e;     /* 涨 —— 国内行情习惯：红涨 */
-  --down:#00d68f;   /* 跌 —— 绿跌 */
-  --gold:#ffb020;
+  --r-xs:5px; --r-sm:7px; --r-md:10px; --r-lg:14px; --r-xl:22px;
+  --font:"Inter","HarmonyOS Sans SC","PingFang SC","Microsoft YaHei","Source Han Sans SC",sans-serif;
+  --mono:"JetBrains Mono","SF Mono","Cascadia Code","Roboto Mono",ui-monospace,monospace;
+  --dur:.16s;
+  /* 品牌 */
+  --brand:#ff6a00;
+  --brand-2:#ff8b33;
+  --brand-deep:#e85d00;
+  /* 数据蓝：科技感辅助色，只用于数据/图标/表头，不与品牌橙争夺注意力 */
+  --tech:#0d9ddb;
+  --tech-2:#22c1e0;
+  /* 行情：红涨绿跌 */
+  --up:#e11d48;
+  --down:#0ea56a;
 }
-html[data-theme="dark"]{
-  --bg:#05080f;
-  --bg-grad-1:rgba(34,211,238,.10);
-  --bg-grad-2:rgba(59,130,246,.10);
-  --panel:rgba(255,255,255,.035);
-  --panel-2:rgba(255,255,255,.055);
-  --panel-hi:rgba(255,255,255,.075);
-  --head:rgba(10,16,30,.86);
-  --line:rgba(255,255,255,.07);
-  --line-2:rgba(255,255,255,.13);
-  --text:#e9eefb;
-  --text-2:#98a5c4;
-  --text-3:#5f6c88;
-  --cyan:#22d3ee;
-  --blue:#4d8dff;
-  --glow:0 0 0 1px rgba(34,211,238,.28), 0 6px 24px -8px rgba(34,211,238,.35);
-  --shadow:0 10px 30px -12px rgba(0,0,0,.7);
-  --grid:rgba(255,255,255,.028);
-}
+/* ---------- 亮色（默认） ---------- */
 html[data-theme="light"]{
-  --bg:#f2f5fb;
-  --bg-grad-1:rgba(34,150,238,.10);
-  --bg-grad-2:rgba(99,102,241,.08);
-  --panel:#ffffff;
-  --panel-2:#f7f9fe;
-  --panel-hi:#eef3fd;
-  --head:rgba(255,255,255,.92);
-  --line:#e3e9f4;
-  --line-2:#ccd6e8;
-  --text:#16203a;
-  --text-2:#5b6885;
-  --text-3:#8d99b3;
-  --cyan:#0aa2c0;
-  --blue:#2563eb;
-  --glow:0 0 0 1px rgba(10,162,192,.3), 0 8px 22px -10px rgba(10,162,192,.35);
-  --shadow:0 8px 24px -14px rgba(22,32,58,.28);
-  --grid:rgba(22,32,58,.035);
+  --bg:#f4f7fb;
+  --veil-1:rgba(255,106,0,.055);
+  --veil-2:rgba(13,157,219,.05);
+  --grid:rgba(26,34,51,.028);
+  --surface:#ffffff;
+  --surface-2:#fbfcfe;
+  --surface-3:#f1f5fa;
+  --head:rgba(255,255,255,.9);
+  --line:#e9eef6;
+  --line-2:#d6dfeb;
+  --line-3:#bcc9da;
+  --text:#18213a;
+  --text-2:#5a6a86;
+  --text-3:#93a1b8;
+  --brand-weak:#fff4ec;
+  --brand-line:#ffd0ae;
+  --tech-weak:#eaf7fd;
+  --tech-line:#bde5f5;
+  --shadow-s:0 1px 2px rgba(24,33,58,.05);
+  --shadow-m:0 4px 14px -6px rgba(24,33,58,.13), 0 1px 3px rgba(24,33,58,.05);
+  --shadow-l:0 14px 38px -16px rgba(24,33,58,.24);
+  --ring:0 0 0 3px rgba(255,106,0,.14);
+  --on-brand:#fff;
+}
+/* ---------- 深色（可选） ---------- */
+html[data-theme="dark"]{
+  --bg:#070b14;
+  --veil-1:rgba(255,106,0,.1);
+  --veil-2:rgba(13,157,219,.09);
+  --grid:rgba(255,255,255,.028);
+  --surface:rgba(255,255,255,.038);
+  --surface-2:rgba(255,255,255,.055);
+  --surface-3:rgba(255,255,255,.08);
+  --head:rgba(11,17,30,.86);
+  --line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);
+  --line-3:rgba(255,255,255,.22);
+  --text:#e9eefb;
+  --text-2:#9aa7c4;
+  --text-3:#66738f;
+  --brand-weak:rgba(255,106,0,.13);
+  --brand-line:rgba(255,106,0,.34);
+  --tech-weak:rgba(13,157,219,.13);
+  --tech-line:rgba(13,157,219,.34);
+  --shadow-s:none;
+  --shadow-m:0 8px 26px -14px rgba(0,0,0,.8);
+  --shadow-l:0 18px 46px -18px rgba(0,0,0,.9);
+  --ring:0 0 0 3px rgba(255,106,0,.22);
+  --on-brand:#fff;
+  --up:#ff4d5e;
+  --down:#12c98a;
 }
 
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:var(--font);
-  background:var(--bg);
-  color:var(--text);
-  font-size:13px;
-  line-height:1.5;
-  -webkit-font-smoothing:antialiased;
-  min-height:100vh;
+  font-family:var(--font);background:var(--bg);color:var(--text);
+  font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;
 }
-/* 科技风底纹：网格 + 双色光斑 */
+/* 亮色下的"科技感"底纹：极淡冷暖双光斑 + 细网格，避免纯白刺眼 */
 body::before{
   content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
-    radial-gradient(900px 420px at 8% -6%, var(--bg-grad-1), transparent 62%),
-    radial-gradient(760px 380px at 96% 0%, var(--bg-grad-2), transparent 60%),
-    linear-gradient(var(--grid) 1px, transparent 1px) 0 0/44px 44px,
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/44px 44px;
+    radial-gradient(820px 380px at 6% -8%, var(--veil-1), transparent 60%),
+    radial-gradient(700px 340px at 97% -4%, var(--veil-2), transparent 58%),
+    linear-gradient(var(--grid) 1px, transparent 1px) 0 0/46px 46px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/46px 46px;
 }
-.wrap{position:relative;z-index:1;max-width:1560px;margin:0 auto;padding:20px 22px 60px}
+.wrap{position:relative;z-index:1;max-width:1560px;margin:0 auto;padding:18px 22px 70px}
 
-/* ---------- 顶栏 ---------- */
-.topbar{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:16px;letter-spacing:.4px}
+/* ==================== 顶栏 ==================== */
+.topbar{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:16.5px;letter-spacing:.3px}
 .logo__mark{
-  width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--cyan),var(--blue));
-  color:#04121c;font-size:13px;font-weight:900;
-  box-shadow:0 4px 14px -4px rgba(34,211,238,.6);
+  width:29px;height:29px;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--brand-2),var(--brand-deep));
+  color:#fff;font-size:13.5px;font-weight:900;box-shadow:0 4px 12px -4px rgba(255,106,0,.55);
 }
-.logo small{font-weight:500;color:var(--text-3);font-size:11px;letter-spacing:1.6px;text-transform:uppercase}
+.logo small{font-weight:500;color:var(--text-3);font-size:10.5px;letter-spacing:1.7px}
 .topbar__sp{flex:1}
-.searchbox{
-  display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;min-width:300px;
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);
-  transition:var(--dur);
+.gsearch{
+  display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;min-width:290px;
+  background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-md);
+  box-shadow:var(--shadow-s);transition:var(--dur);
 }
-.searchbox:focus-within{border-color:var(--cyan);box-shadow:var(--glow)}
-.searchbox input{flex:1;background:none;border:0;outline:0;color:var(--text);font-size:13px;font-family:var(--font)}
-.searchbox input::placeholder{color:var(--text-3)}
-.searchbox kbd{
-  font-family:var(--mono);font-size:10px;color:var(--text-3);
-  border:1px solid var(--line-2);border-radius:4px;padding:1px 5px;
-}
+.gsearch:focus-within{border-color:var(--brand);box-shadow:var(--ring)}
+.gsearch input{flex:1;background:none;border:0;outline:0;color:var(--text);font-size:13px;font-family:var(--font)}
+.gsearch input::placeholder{color:var(--text-3)}
+.gsearch kbd{font-family:var(--mono);font-size:10px;color:var(--text-3);border:1px solid var(--line-2);border-radius:4px;padding:1px 5px}
 
-/* ---------- 通用控件 ---------- */
+/* ==================== 通用控件 ==================== */
 .btn{
-  height:30px;padding:0 12px;border-radius:var(--r-sm);border:1px solid var(--line-2);
-  background:var(--panel);color:var(--text-2);font-size:12px;font-family:var(--font);
+  height:32px;padding:0 13px;border-radius:var(--r-sm);border:1px solid var(--line-2);
+  background:var(--surface);color:var(--text-2);font-size:12.5px;font-family:var(--font);
   cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:var(--dur);white-space:nowrap;
+  box-shadow:var(--shadow-s);
 }
-.btn:hover{color:var(--text);border-color:var(--cyan);background:var(--panel-hi)}
+.btn:hover{color:var(--text);border-color:var(--line-3);background:var(--surface-2)}
 .btn--primary{
-  border:0;color:#04121c;font-weight:700;
-  background:linear-gradient(135deg,var(--cyan),var(--blue));
-  box-shadow:0 4px 14px -6px rgba(34,211,238,.7);
+  border-color:transparent;color:var(--on-brand);font-weight:700;
+  background:linear-gradient(135deg,var(--brand-2),var(--brand));
+  box-shadow:0 4px 13px -5px rgba(255,106,0,.6);
 }
-html[data-theme="light"] .btn--primary{color:#fff}
-.btn--primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.btn--sm{height:26px;padding:0 9px;font-size:11px}
+.btn--primary:hover{filter:brightness(1.05);transform:translateY(-1px);color:var(--on-brand)}
+.btn--tech{border-color:var(--tech-line);color:var(--tech);background:var(--tech-weak)}
+.btn--tech:hover{border-color:var(--tech);color:var(--tech)}
+.btn--sm{height:27px;padding:0 10px;font-size:11.5px}
+.btn--lg{height:38px;padding:0 22px;font-size:14px}
+.btn--text{border:0;background:none;box-shadow:none;padding:0 6px;color:var(--text-2)}
+.btn--text:hover{background:none;color:var(--brand)}
 .iconbtn{
-  width:28px;height:28px;border-radius:var(--r-sm);border:1px solid transparent;
+  width:29px;height:29px;border-radius:var(--r-sm);border:1px solid transparent;
   background:transparent;color:var(--text-3);cursor:pointer;display:grid;place-items:center;transition:var(--dur);
 }
-.iconbtn:hover{color:var(--cyan);background:var(--panel-hi);border-color:var(--line-2)}
-.iconbtn.is-on{color:var(--gold)}
-.seg{display:flex;padding:2px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);gap:2px}
+.iconbtn:hover{color:var(--brand);background:var(--brand-weak);border-color:var(--brand-line)}
+.iconbtn.is-on{color:var(--brand)}
+
+/* 分段控件 */
+.seg{display:inline-flex;padding:2px;background:var(--surface-3);border:1px solid var(--line);border-radius:var(--r-sm);gap:2px}
 .seg button{
-  height:26px;padding:0 11px;border:0;border-radius:7px;background:transparent;cursor:pointer;
-  color:var(--text-3);font-size:12px;font-family:var(--font);display:flex;align-items:center;gap:5px;transition:var(--dur);
+  height:24px;padding:0 10px;border:0;border-radius:5px;background:transparent;cursor:pointer;
+  color:var(--text-3);font-size:12px;font-family:var(--font);display:inline-flex;align-items:center;gap:5px;
+  transition:var(--dur);white-space:nowrap;
 }
 .seg button:hover{color:var(--text-2)}
 .seg button[aria-pressed="true"]{
-  background:linear-gradient(135deg,rgba(34,211,238,.18),rgba(77,141,255,.14));
-  color:var(--cyan);box-shadow:inset 0 0 0 1px rgba(34,211,238,.3);
+  background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--shadow-s);
 }
+.seg--mono button{font-family:var(--mono);font-size:11.5px;letter-spacing:-.2px}
 
-/* ---------- 筛选区 ---------- */
-.filters{
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);
-  padding:4px 14px;margin-bottom:12px;backdrop-filter:blur(12px);
+/* ==========================================================================
+   一、资源筛选面板（重构）
+   三段语义分组：① 找什么货  ② 从哪发货  ③ 找谁买
+   ========================================================================== */
+.panel{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow-m);margin-bottom:12px;overflow:hidden;
 }
-.frow{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line)}
-.frow:last-child{border-bottom:0}
-.frow__label{width:52px;flex:none;color:var(--text-3);font-size:12px;padding-top:3px}
-.frow__body{flex:1;display:flex;flex-wrap:wrap;gap:6px}
+.panel__hd{
+  display:flex;align-items:center;gap:10px;padding:11px 16px;
+  border-bottom:1px solid var(--line);background:var(--surface-2);
+}
+.panel__hd h2{
+  margin:0;font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:7px;
+}
+.panel__hd h2 svg{width:15px;height:15px;color:var(--brand)}
+.panel__hd .sp{flex:1}
+.panel__bd{padding:4px 16px 14px}
+
+/* 语义分组 */
+.fgroup{padding:12px 0;border-bottom:1px dashed var(--line)}
+.fgroup:last-of-type{border-bottom:0}
+.fgroup__t{
+  display:flex;align-items:center;gap:8px;margin-bottom:11px;
+  font-size:11.5px;font-weight:700;color:var(--text-2);letter-spacing:.4px;
+}
+.fgroup__t i{
+  width:17px;height:17px;flex:none;border-radius:5px;display:grid;place-items:center;
+  font-family:var(--mono);font-size:10px;font-style:normal;font-weight:700;
+  background:var(--brand-weak);color:var(--brand);border:1px solid var(--brand-line);
+}
+.fgroup__t em{font-style:normal;font-weight:400;color:var(--text-3);font-size:11px}
+
+/* 字段网格：标签宽度统一，控件等宽对齐 */
+.fgrid{display:grid;grid-template-columns:repeat(3,minmax(260px,1fr));gap:10px 18px}
+.fgrid--2{grid-template-columns:repeat(2,minmax(260px,1fr))}
+.fitem{display:flex;align-items:center;gap:9px;min-width:0}
+.fitem__lb{
+  width:62px;flex:none;text-align:right;font-size:12.5px;color:var(--text-2);
+  display:flex;align-items:center;justify-content:flex-end;gap:4px;
+}
+.fitem__lb svg{width:13px;height:13px;color:var(--text-3)}
+.field{
+  flex:1;min-width:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 10px;
+  background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-sm);
+  transition:var(--dur);cursor:text;
+}
+.field:hover{border-color:var(--line-3)}
+.field:focus-within{border-color:var(--brand);box-shadow:var(--ring)}
+.field input{flex:1;min-width:0;border:0;outline:0;background:none;font-size:13px;color:var(--text);font-family:var(--font)}
+.field input::placeholder{color:var(--text-3)}
+.field__ic{color:var(--text-3);display:grid;place-items:center;flex:none}
+.field__ic svg{width:14px;height:14px}
+/* 把原来悬挂在右侧的橙色「选择 ▶」收进输入框内，成为标准下拉触发器 */
+.field__pick{
+  flex:none;height:24px;padding:0 7px;border-radius:5px;border:1px solid var(--line);
+  background:var(--surface-3);color:var(--text-2);font-size:11.5px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:3px;transition:var(--dur);font-family:var(--font);
+}
+.field__pick:hover{border-color:var(--brand-line);color:var(--brand);background:var(--brand-weak)}
+.field__pick svg{width:10px;height:10px}
+.field.is-disabled{background:var(--surface-3);cursor:not-allowed;opacity:.65}
+.field.is-disabled input{cursor:not-allowed}
+
+/* ---------- 尺寸与公差（原设计问题最集中的区域，整体重做） ---------- */
+.dimbox{
+  margin-top:12px;border:1px solid var(--brand-line);border-radius:var(--r-md);
+  background:linear-gradient(180deg,var(--brand-weak),transparent 70%);overflow:hidden;
+}
+.dimbox__hd{
+  display:flex;align-items:center;gap:9px;padding:9px 12px;border-bottom:1px solid var(--brand-line);
+  font-size:12px;font-weight:600;color:var(--text);
+}
+.dimbox__hd svg{width:14px;height:14px;color:var(--brand);flex:none}
+.dimbox__hd .sp{flex:1}
+.dimbox__hint{
+  font-weight:400;font-size:11.5px;color:var(--text-2);display:inline-flex;align-items:center;gap:5px;
+}
+.dimbox__hint b{color:var(--brand);font-weight:700}
+.dimbox__bd{padding:11px 12px 12px}
+/* 每行 1–2 个维度：公差是最易出错的输入区，宁可多占纵向空间也要保证对齐与可读 */
+.dims{display:grid;grid-template-columns:repeat(auto-fit,minmax(560px,1fr));gap:8px 24px}
+.dim{display:flex;align-items:center;gap:9px}
+.dim__lb{
+  width:52px;flex:none;text-align:right;font-size:12.5px;color:var(--text-2);
+}
+/* 数值输入在前（先有基准值，再谈公差），比原来 radio 在前更符合心智 */
+.dim__in{
+  width:104px;flex:none;height:31px;display:flex;align-items:center;gap:4px;padding:0 9px;
+  background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-sm);transition:var(--dur);
+}
+.dim__in:focus-within{border-color:var(--brand);box-shadow:var(--ring)}
+.dim__in input{
+  flex:1;min-width:0;border:0;outline:0;background:none;text-align:right;
+  font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;
+}
+.dim__in input::placeholder{font-family:var(--font);font-weight:400;font-size:12.5px;color:var(--text-3)}
+.dim__in span{font-size:11px;color:var(--text-3);flex:none}
+/* 公差档位：分段控件替代 radio，且档位随维度而变 */
+.dim__tol{flex:none}
+/* 实时回显生效区间——原设计完全缺失，用户无法确认自己理解对了 */
+.dim__out{
+  flex:0 1 auto;min-width:176px;font-family:var(--mono);font-size:11.5px;color:var(--tech);
+  background:var(--tech-weak);border:1px dashed var(--tech-line);border-radius:5px;
+  padding:3px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-variant-numeric:tabular-nums;
+}
+.dim__out.is-empty{color:var(--text-3);background:transparent;border-color:var(--line-2)}
+/* 未选品类时的禁用引导态 */
+.dimbox.is-locked{border-color:var(--line-2);background:var(--surface-3)}
+.dimbox.is-locked .dimbox__hd{border-bottom-color:var(--line-2);color:var(--text-3)}
+.dimbox.is-locked .dimbox__hd svg{color:var(--text-3)}
+.dimbox.is-locked .dimbox__bd{opacity:.5;pointer-events:none;filter:grayscale(.6)}
+.lockhint{
+  display:flex;align-items:center;gap:7px;padding:11px 12px;font-size:12px;color:var(--text-2);
+}
+.lockhint svg{width:14px;height:14px;color:var(--text-3);flex:none}
+.lockhint b{color:var(--text);font-weight:600}
+
+/* ---------- 会员等级 / 资质 ---------- */
+.chiprow{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.chiprow__lb{width:62px;flex:none;text-align:right;font-size:12.5px;color:var(--text-2)}
+.chips{display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1;min-width:0}
 .chip{
-  height:26px;padding:0 11px;border-radius:20px;border:1px solid transparent;
-  background:transparent;color:var(--text-2);font-size:12px;cursor:pointer;
+  height:28px;padding:0 12px;border-radius:20px;border:1px solid var(--line-2);
+  background:var(--surface);color:var(--text-2);font-size:12.5px;cursor:pointer;
   display:inline-flex;align-items:center;gap:5px;transition:var(--dur);font-family:var(--font);
+  box-shadow:var(--shadow-s);
 }
-.chip:hover{background:var(--panel-hi);color:var(--text)}
+.chip:hover{border-color:var(--line-3);color:var(--text)}
 .chip[aria-pressed="true"]{
-  background:linear-gradient(135deg,rgba(34,211,238,.16),rgba(77,141,255,.12));
-  color:var(--cyan);border-color:rgba(34,211,238,.35);font-weight:600;
+  background:var(--brand);border-color:transparent;color:var(--on-brand);font-weight:600;
+  box-shadow:0 3px 10px -4px rgba(255,106,0,.6);
 }
-.chip__x{opacity:.6;font-size:14px;line-height:1}
+.chip svg{width:13px;height:13px;flex:none}
+.chip__sep{width:1px;height:16px;background:var(--line-2);margin:0 3px;flex:none}
+/* 会员等级：只在高等级用渐变，避免 6 个版本 6 种大色块 */
+.chip--t1[aria-pressed="true"]{background:linear-gradient(135deg,#ff8b33,#e85d00)}
+.chip--t2[aria-pressed="true"]{background:linear-gradient(135deg,#a78bfa,#7c4dff)}
+.chip--t3[aria-pressed="true"]{background:linear-gradient(135deg,#38bdf8,#0d84c8)}
+.chip--t4[aria-pressed="true"]{background:linear-gradient(135deg,#fbbf24,#d99400)}
+.chip--plain[aria-pressed="true"]{background:var(--text-2)}
+.tierdot{width:6px;height:6px;border-radius:50%;flex:none}
+.chip[aria-pressed="true"] .tierdot{background:rgba(255,255,255,.85)!important}
 
-/* ---------- 工具条 ---------- */
-.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.count{font-size:12px;color:var(--text-3)}
-.count b{font-family:var(--mono);font-size:15px;color:var(--cyan);margin:0 3px;font-weight:700}
+/* ---------- 已选条件回显 + 主操作 ---------- */
+.panel__ft{
+  display:flex;align-items:center;gap:12px;padding:11px 16px;
+  border-top:1px solid var(--line);background:var(--surface-2);flex-wrap:wrap;
+}
+.picked{display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1;min-width:200px}
+.picked__lb{font-size:12px;color:var(--text-3);flex:none}
+.picked__lb b{color:var(--brand);font-family:var(--mono);font-size:13px;margin:0 2px}
+.ptag{
+  height:25px;padding:0 6px 0 9px;border-radius:14px;font-size:12px;
+  background:var(--brand-weak);border:1px solid var(--brand-line);color:var(--brand-deep);
+  display:inline-flex;align-items:center;gap:4px;
+}
+html[data-theme="dark"] .ptag{color:var(--brand-2)}
+.ptag em{font-style:normal;font-family:var(--mono);font-weight:600}
+.ptag button{
+  width:16px;height:16px;border:0;border-radius:50%;background:transparent;color:inherit;
+  cursor:pointer;display:grid;place-items:center;opacity:.6;transition:var(--dur);font-size:13px;line-height:1;
+}
+.ptag button:hover{opacity:1;background:rgba(0,0,0,.07)}
+.acts{display:flex;align-items:center;gap:9px;flex:none}
+.acts .hint{font-size:11.5px;color:var(--text-3);margin-right:2px}
+.acts .hint b{font-family:var(--mono);color:var(--brand);font-size:13px}
+
+/* ==================== 工具条 ==================== */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:9px;flex-wrap:wrap}
+.count{font-size:12.5px;color:var(--text-2)}
+.count b{font-family:var(--mono);font-size:15.5px;color:var(--brand);margin:0 3px;font-weight:800}
+.count span{font-family:var(--mono);color:var(--text-3);font-size:12px}
 .toolbar__sp{flex:1}
-.legend{display:flex;gap:12px;font-size:11px;color:var(--text-3);align-items:center}
+.legend{display:flex;gap:12px;font-size:11.5px;color:var(--text-3);align-items:center}
 .legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:middle}
 
-/* ---------- 表头 ---------- */
+/* ==========================================================================
+   二、资源列表：6 视觉块 + 展开层
+   ========================================================================== */
+:root{--cols:58px minmax(190px,1.05fr) minmax(240px,1.5fr) minmax(130px,.85fr) minmax(180px,1fr) 208px}
+
 .thead{
-  position:sticky;top:0;z-index:20;
-  display:grid;grid-template-columns:var(--cols);
-  gap:12px;align-items:center;
-  padding:9px 14px;margin-bottom:8px;
-  background:var(--head);backdrop-filter:blur(16px) saturate(1.3);
-  border:1px solid var(--line);border-radius:var(--r-md);
-  font-size:11px;color:var(--text-3);letter-spacing:.6px;
+  position:sticky;top:0;z-index:20;display:grid;grid-template-columns:var(--cols);
+  gap:12px;align-items:center;padding:9px 14px;margin-bottom:8px;
+  background:var(--head);backdrop-filter:blur(14px) saturate(1.2);
+  border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow-s);
+  font-size:11.5px;color:var(--text-3);letter-spacing:.4px;
 }
 .thead__cell{display:flex;align-items:center;gap:5px;cursor:pointer;transition:var(--dur);user-select:none}
-.thead__cell:hover{color:var(--cyan)}
+.thead__cell:hover{color:var(--brand)}
 .thead__cell--r{justify-content:flex-end}
 .sorter{display:flex;flex-direction:column;gap:1px;opacity:.4}
 .sorter i{width:0;height:0;border-left:3px solid transparent;border-right:3px solid transparent}
 .sorter i:first-child{border-bottom:4px solid currentColor}
 .sorter i:last-child{border-top:4px solid currentColor}
-.thead__cell.is-sort{color:var(--cyan)}
+.thead__cell.is-sort{color:var(--brand)}
 .thead__cell.is-sort .sorter{opacity:1}
-
-/* ============================================================
-   舒适视图：表格化卡片行（默认）
-   6 个视觉块：序号 / 供应商身份 / 货物(规格为主角) / 数量 / 价格 / 操作
-   ============================================================ */
-:root{ --cols: 58px minmax(190px,1.05fr) minmax(240px,1.5fr) minmax(130px,.85fr) minmax(180px,1fr) 208px; }
 
 .list{display:flex;flex-direction:column;gap:7px}
 .row{
-  position:relative;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:var(--r-lg);
-  transition:border-color var(--dur), background var(--dur), transform var(--dur), box-shadow var(--dur);
-  overflow:hidden;
+  position:relative;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r-lg);box-shadow:var(--shadow-s);overflow:hidden;
+  transition:border-color var(--dur),box-shadow var(--dur),background var(--dur);
 }
 .row::before{
-  content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
-  background:linear-gradient(180deg,var(--cyan),var(--blue));
-  opacity:0;transition:var(--dur);
+  content:"";position:absolute;left:0;top:0;bottom:0;width:2.5px;
+  background:linear-gradient(180deg,var(--brand-2),var(--brand-deep));opacity:0;transition:var(--dur);
 }
-.row:hover{border-color:var(--line-2);background:var(--panel-2);box-shadow:var(--shadow)}
+.row:hover{border-color:var(--brand-line);box-shadow:var(--shadow-m)}
 .row:hover::before{opacity:1}
-.row.is-checked{border-color:rgba(34,211,238,.45);background:var(--panel-2)}
+.row.is-checked{border-color:var(--brand);background:var(--brand-weak)}
 .row.is-checked::before{opacity:1}
-.row.is-open{border-color:rgba(34,211,238,.35)}
-
+.row.is-open{border-color:var(--brand-line)}
 .row__main{display:grid;grid-template-columns:var(--cols);gap:12px;align-items:center;padding:12px 14px}
 
-/* 块 1 · 序号 + 勾选 */
+/* 块 1 序号 */
 .cell--check{display:flex;align-items:center;gap:9px}
 .ck{
   appearance:none;width:15px;height:15px;flex:none;border-radius:4px;
-  border:1.5px solid var(--line-2);background:transparent;cursor:pointer;transition:var(--dur);position:relative;
+  border:1.5px solid var(--line-3);background:var(--surface);cursor:pointer;transition:var(--dur);position:relative;
 }
-.ck:hover{border-color:var(--cyan)}
-.ck:checked{background:linear-gradient(135deg,var(--cyan),var(--blue));border-color:transparent}
+.ck:hover{border-color:var(--brand)}
+.ck:checked{background:var(--brand);border-color:var(--brand)}
 .ck:checked::after{
   content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;
-  border:2px solid #04121c;border-top:0;border-left:0;transform:rotate(42deg);
+  border:2px solid #fff;border-top:0;border-left:0;transform:rotate(42deg);
 }
-html[data-theme="light"] .ck:checked::after{border-color:#fff}
 .idx{font-family:var(--mono);font-size:12px;color:var(--text-3);font-variant-numeric:tabular-nums}
 
-/* 块 2 · 供应商身份（供应商 + 等级 + 资质 合并） */
+/* 块 2 供应商身份（供应商 + 等级 + 资质 合并） */
 .sup{display:flex;align-items:center;gap:9px;min-width:0}
 .sup__avatar{
   width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;
   font-size:12px;font-weight:800;letter-spacing:-.5px;
-  background:linear-gradient(140deg,rgba(34,211,238,.2),rgba(77,141,255,.14));
-  color:var(--cyan);border:1px solid rgba(34,211,238,.24);
+  background:var(--brand-weak);color:var(--brand-deep);border:1px solid var(--brand-line);
 }
+html[data-theme="dark"] .sup__avatar{color:var(--brand-2)}
 .sup__body{min-width:0;flex:1}
-.sup__name{
-  display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;
-  color:var(--text);margin-bottom:3px;
-}
+.sup__name{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;margin-bottom:3px}
 .sup__name a{color:inherit;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sup__name a:hover{color:var(--cyan)}
-/* 等级徽章 */
-.lv{
-  flex:none;height:17px;padding:0 6px;border-radius:4px;font-size:10px;font-weight:700;
-  display:inline-flex;align-items:center;letter-spacing:.3px;
-}
-.lv--flag{background:linear-gradient(135deg,#ff9500,#ff5c2b);color:#fff;box-shadow:0 2px 8px -3px rgba(255,120,40,.8)}
-.lv--gold{background:linear-gradient(135deg,#ffcf4a,#e0a010);color:#3b2600}
-.lv--normal{background:var(--panel-hi);color:var(--text-3);box-shadow:inset 0 0 0 1px var(--line-2)}
-/* 资质：图标化 + 悬浮释义，不再堆叠彩色文字 */
+.sup__name a:hover{color:var(--brand)}
+.lv{flex:none;height:17px;padding:0 6px;border-radius:4px;font-size:10px;font-weight:700;display:inline-flex;align-items:center;letter-spacing:.2px;color:#fff}
+.lv--flag{background:linear-gradient(135deg,#ff8b33,#e85d00)}
+.lv--zx{background:linear-gradient(135deg,#a78bfa,#7c4dff)}
+.lv--gold{background:linear-gradient(135deg,#fbbf24,#d99400)}
+.lv--normal{background:var(--surface-3);color:var(--text-3);box-shadow:inset 0 0 0 1px var(--line-2)}
 .quals{display:flex;align-items:center;gap:4px}
 .q{
   width:19px;height:19px;border-radius:5px;display:grid;place-items:center;
-  background:var(--panel-hi);box-shadow:inset 0 0 0 1px var(--line-2);
-  color:var(--text-3);cursor:help;transition:var(--dur);
+  background:var(--surface-3);box-shadow:inset 0 0 0 1px var(--line-2);color:var(--text-3);
+  cursor:help;transition:var(--dur);
 }
 .q svg{width:12px;height:12px}
 .q:hover{transform:translateY(-1px)}
-.q--cert{color:#ffb020;box-shadow:inset 0 0 0 1px rgba(255,176,32,.32);background:rgba(255,176,32,.1)}
-.q--yard{color:#4d8dff;box-shadow:inset 0 0 0 1px rgba(77,141,255,.32);background:rgba(77,141,255,.1)}
-.q--mill{color:#22d3ee;box-shadow:inset 0 0 0 1px rgba(34,211,238,.32);background:rgba(34,211,238,.1)}
-.q--maker{color:#a78bfa;box-shadow:inset 0 0 0 1px rgba(167,139,250,.32);background:rgba(167,139,250,.1)}
+.q--cert{color:#d99400;box-shadow:inset 0 0 0 1px rgba(217,148,0,.3);background:rgba(251,191,36,.12)}
+.q--yard{color:#0d84c8;box-shadow:inset 0 0 0 1px rgba(13,132,200,.3);background:rgba(56,189,248,.12)}
+.q--mill{color:#e85d00;box-shadow:inset 0 0 0 1px rgba(232,93,0,.3);background:rgba(255,139,51,.12)}
+.q--maker{color:#7c4dff;box-shadow:inset 0 0 0 1px rgba(124,77,255,.3);background:rgba(167,139,250,.12)}
 .q--more{font-family:var(--mono);font-size:9.5px;color:var(--text-3)}
 
-/* 块 3 · 货物（规格 = 视觉主角） */
+/* 块 3 货物（规格为视觉主角） */
 .goods{min-width:0}
 .goods__spec{
-  font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:.2px;
-  color:var(--text);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:.1px;color:var(--text);
+  margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .goods__spec em{font-style:normal;color:var(--text-3);margin:0 3px;font-weight:400}
 .goods__meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:11.5px;color:var(--text-2)}
 .tag{
   height:19px;padding:0 7px;border-radius:5px;font-size:11px;display:inline-flex;align-items:center;
-  background:var(--panel-hi);box-shadow:inset 0 0 0 1px var(--line-2);color:var(--text-2);white-space:nowrap;
+  background:var(--surface-3);box-shadow:inset 0 0 0 1px var(--line-2);color:var(--text-2);white-space:nowrap;
 }
-.tag--cat{color:var(--cyan);background:rgba(34,211,238,.1);box-shadow:inset 0 0 0 1px rgba(34,211,238,.28);font-weight:600}
-.tag--mat{font-family:var(--mono);color:var(--text);letter-spacing:.3px}
-.tag--stock{color:var(--down);background:rgba(0,214,143,.1);box-shadow:inset 0 0 0 1px rgba(0,214,143,.28)}
-.tag--tight{color:var(--gold);background:rgba(255,176,32,.1);box-shadow:inset 0 0 0 1px rgba(255,176,32,.3)}
+.tag--cat{color:var(--brand-deep);background:var(--brand-weak);box-shadow:inset 0 0 0 1px var(--brand-line);font-weight:600}
+html[data-theme="dark"] .tag--cat{color:var(--brand-2)}
+.tag--mat{font-family:var(--mono);color:var(--text);letter-spacing:.2px}
+.tag--stock{color:var(--down);background:rgba(14,165,106,.1);box-shadow:inset 0 0 0 1px rgba(14,165,106,.28)}
+.tag--tight{color:#d99400;background:rgba(251,191,36,.14);box-shadow:inset 0 0 0 1px rgba(217,148,0,.3)}
 .meta__i{display:inline-flex;align-items:center;gap:3px;color:var(--text-3);white-space:nowrap}
-.meta__i svg{width:11px;height:11px;opacity:.8}
+.meta__i svg{width:11px;height:11px;opacity:.85}
 .meta__i b{color:var(--text-2);font-weight:500}
 
-/* 块 4 · 数量（重量 + 整件 + 零数） */
-.qty{text-align:left}
-.qty__main{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+/* 块 4 数量 */
+.qty__main{font-family:var(--mono);font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
 .qty__main i{font-style:normal;font-size:11px;color:var(--text-3);margin-left:2px;font-weight:400}
 .qty__sub{font-size:11px;color:var(--text-3);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap}
 .qty__sub b{color:var(--text-2);font-family:var(--mono);font-weight:600}
 
-/* 块 5 · 价格（单价 + 计价方式 + 涨跌 + 昨日） */
+/* 块 5 价格 */
 .price{text-align:right}
 .price__main{display:flex;align-items:baseline;justify-content:flex-end;gap:1px;white-space:nowrap}
-.price__main .cur{font-size:12px;color:var(--gold);font-weight:600;margin-right:1px}
+.price__main .cur{font-size:12px;color:var(--brand);font-weight:600;margin-right:1px}
 .price__main b{
   font-family:var(--mono);font-size:20px;font-weight:800;letter-spacing:-.4px;
-  color:var(--gold);font-variant-numeric:tabular-nums;
-  text-shadow:0 0 18px rgba(255,176,32,.28);
+  color:var(--brand);font-variant-numeric:tabular-nums;
 }
 .price__main i{font-style:normal;font-size:11px;color:var(--text-3);margin-left:2px}
-.price__ask{font-size:15px;font-weight:700;color:var(--blue);letter-spacing:1px}
+.price__ask{font-size:15px;font-weight:700;color:var(--tech);letter-spacing:1px}
 .price__sub{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-top:4px;font-size:11px;white-space:nowrap}
 .chip--calc{
   height:17px;padding:0 5px;border-radius:4px;font-size:10px;display:inline-flex;align-items:center;
-  color:var(--text-2);background:var(--panel-hi);box-shadow:inset 0 0 0 1px var(--line-2);
+  color:var(--text-2);background:var(--surface-3);box-shadow:inset 0 0 0 1px var(--line-2);
 }
 .delta{font-family:var(--mono);font-weight:700;display:inline-flex;align-items:center;gap:2px;font-variant-numeric:tabular-nums}
 .delta--down{color:var(--down)}
@@ -317,58 +469,52 @@ html[data-theme="light"] .ck:checked::after{border-color:#fff}
 .delta--flat{color:var(--text-3)}
 .ref{color:var(--text-3);font-family:var(--mono);font-variant-numeric:tabular-nums}
 
-/* 块 6 · 操作 */
+/* 块 6 操作 */
 .ops{display:flex;align-items:center;justify-content:flex-end;gap:5px}
 .expand{transition:transform var(--dur)}
-.row.is-open .expand{transform:rotate(180deg);color:var(--cyan)}
+.row.is-open .expand{transform:rotate(180deg);color:var(--brand)}
 
-/* ---------- 展开层：低频字段 ---------- */
-.row__detail{display:none;border-top:1px dashed var(--line);background:var(--panel-2)}
-.row.is-open .row__detail{display:block;animation:slide .2s ease}
-@keyframes slide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-.dwrap{padding:12px 14px 14px 14px}
+/* 展开层 */
+.row__detail{display:none;border-top:1px dashed var(--line);background:var(--surface-2)}
+.row.is-open .row__detail{display:block;animation:slide .18s ease}
+@keyframes slide{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.dwrap{padding:12px 14px 14px}
 .dgrid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:1px;
   background:var(--line);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;
 }
-.d{background:var(--panel);padding:8px 11px}
-.d span{display:block;font-size:10.5px;color:var(--text-3);letter-spacing:.4px;margin-bottom:3px}
-.d b{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
+.d{background:var(--surface);padding:8px 11px}
+.d span{display:block;font-size:10.5px;color:var(--text-3);letter-spacing:.3px;margin-bottom:3px}
+.d b{font-family:var(--mono);font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums}
 .d b.txt{font-family:var(--font);font-weight:500}
 .d b.neg{color:var(--up)}
 .note{
-  margin-top:9px;display:flex;gap:8px;align-items:flex-start;
-  padding:9px 11px;border-radius:var(--r-md);
-  background:rgba(77,141,255,.07);box-shadow:inset 0 0 0 1px rgba(77,141,255,.2);
-  font-size:12px;color:var(--text-2);line-height:1.6;
+  margin-top:9px;display:flex;gap:8px;align-items:flex-start;padding:9px 11px;border-radius:var(--r-md);
+  background:var(--tech-weak);border:1px solid var(--tech-line);font-size:12px;color:var(--text-2);line-height:1.6;
 }
-.note svg{width:13px;height:13px;flex:none;margin-top:2px;color:var(--blue)}
+.note svg{width:13px;height:13px;flex:none;margin-top:2px;color:var(--tech)}
 .note b{color:var(--text);font-weight:600}
 
-/* ============================================================
-   紧凑视图：真表格（列可配置 + 横向滚动 + 左侧列冻结）
-   ============================================================ */
-.tablewrap{display:none;border:1px solid var(--line);border-radius:var(--r-lg);overflow:auto;background:var(--panel);max-height:70vh}
+/* ==================== 紧凑表格视图 ==================== */
+.tablewrap{display:none;border:1px solid var(--line);border-radius:var(--r-lg);overflow:auto;background:var(--surface);max-height:70vh;box-shadow:var(--shadow-s)}
 html[data-view="table"] .tablewrap{display:block}
-html[data-view="table"] .list,
-html[data-view="table"] .thead{display:none}
+html[data-view="table"] .list,html[data-view="table"] .thead{display:none}
 table.grid{border-collapse:separate;border-spacing:0;width:100%;font-size:12px;white-space:nowrap}
 table.grid th,table.grid td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:left}
 table.grid thead th{
-  position:sticky;top:0;z-index:5;background:var(--head);backdrop-filter:blur(14px);
-  font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:.5px;border-bottom:1px solid var(--line-2);
+  position:sticky;top:0;z-index:5;background:var(--head);backdrop-filter:blur(12px);
+  font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.4px;border-bottom:1px solid var(--line-2);
 }
-table.grid tbody tr:hover td{background:var(--panel-hi)}
+table.grid tbody tr:hover td{background:var(--surface-3)}
 table.grid .num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
-table.grid .stick{position:sticky;left:0;z-index:4;background:var(--panel);box-shadow:1px 0 0 var(--line)}
+table.grid .stick{position:sticky;left:0;z-index:4;background:var(--surface);box-shadow:1px 0 0 var(--line)}
 table.grid thead .stick{z-index:6;background:var(--head)}
-table.grid tbody tr:hover .stick{background:var(--panel-hi)}
-table.grid .stick2{position:sticky;left:52px;z-index:4;background:var(--panel);box-shadow:1px 0 0 var(--line)}
+table.grid tbody tr:hover .stick{background:var(--surface-3)}
+table.grid .stick2{position:sticky;left:52px;z-index:4;background:var(--surface);box-shadow:1px 0 0 var(--line)}
 table.grid thead .stick2{z-index:6;background:var(--head)}
-table.grid tbody tr:hover .stick2{background:var(--panel-hi)}
-table.grid .spec{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--text)}
-table.grid .pri{font-family:var(--mono);font-weight:800;color:var(--gold);text-align:right;font-variant-numeric:tabular-nums}
-/* 列显隐由 <html data-hide="..."> 控制 */
+table.grid tbody tr:hover .stick2{background:var(--surface-3)}
+table.grid .spec{font-family:var(--mono);font-weight:700;font-size:13px}
+table.grid .pri{font-family:var(--mono);font-weight:800;color:var(--brand);text-align:right;font-variant-numeric:tabular-nums}
 html[data-hide~="zhengjian"] [data-col="zhengjian"],
 html[data-hide~="lingshu"] [data-col="lingshu"],
 html[data-hide~="baozhuang"] [data-col="baozhuang"],
@@ -383,97 +529,89 @@ html[data-hide~="beizhu"] [data-col="beizhu"],
 html[data-hide~="caizhi"] [data-col="caizhi"],
 html[data-hide~="zhongliang"] [data-col="zhongliang"]{display:none}
 
-/* ---------- 列配置抽屉 ---------- */
-.drawer{
-  position:fixed;inset:0;z-index:80;display:none;
-}
+/* ==================== 抽屉 / 批量条 / 分页 ==================== */
+.drawer{position:fixed;inset:0;z-index:80;display:none}
 .drawer.is-open{display:block}
-.drawer__mask{position:absolute;inset:0;background:rgba(3,6,14,.6);backdrop-filter:blur(3px)}
+.drawer__mask{position:absolute;inset:0;background:rgba(24,33,58,.32);backdrop-filter:blur(2px)}
 .drawer__panel{
-  position:absolute;right:0;top:0;bottom:0;width:340px;max-width:88vw;
-  background:var(--bg);border-left:1px solid var(--line-2);
-  box-shadow:-20px 0 60px -20px rgba(0,0,0,.6);
-  display:flex;flex-direction:column;animation:slidein .22s ease;
+  position:absolute;right:0;top:0;bottom:0;width:340px;max-width:88vw;background:var(--bg);
+  border-left:1px solid var(--line-2);box-shadow:var(--shadow-l);display:flex;flex-direction:column;
+  animation:slidein .2s ease;
 }
-@keyframes slidein{from{transform:translateX(24px);opacity:.4}to{transform:none;opacity:1}}
-.drawer__hd{display:flex;align-items:center;gap:10px;padding:15px 16px;border-bottom:1px solid var(--line)}
+@keyframes slidein{from{transform:translateX(20px);opacity:.5}to{transform:none;opacity:1}}
+.drawer__hd{display:flex;align-items:center;gap:10px;padding:15px 16px;border-bottom:1px solid var(--line);background:var(--surface)}
 .drawer__hd h3{margin:0;font-size:14px;font-weight:700}
 .drawer__hd p{margin:2px 0 0;font-size:11px;color:var(--text-3)}
-.drawer__bd{flex:1;overflow:auto;padding:14px 16px}
-.drawer__ft{padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:8px}
+.drawer__bd{flex:1;overflow:auto;padding:14px 16px;background:var(--surface)}
+.drawer__ft{padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:8px;background:var(--surface)}
 .grp{margin-bottom:16px}
-.grp__t{font-size:10.5px;color:var(--text-3);letter-spacing:1.2px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.grp__t{font-size:10.5px;color:var(--text-3);letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:8px;font-weight:600}
 .grp__t::after{content:"";flex:1;height:1px;background:var(--line)}
-.opt{
-  display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:var(--r-sm);
-  cursor:pointer;transition:var(--dur);font-size:12.5px;
-}
-.opt:hover{background:var(--panel-hi)}
+.opt{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:var(--r-sm);cursor:pointer;transition:var(--dur);font-size:12.5px}
+.opt:hover{background:var(--surface-3)}
 .opt.is-lock{opacity:.5;cursor:not-allowed}
 .opt .lockmark{margin-left:auto;font-size:10px;color:var(--text-3)}
 
-/* ---------- 批量操作条 ---------- */
 .batchbar{
   position:fixed;left:50%;bottom:22px;transform:translate(-50%,240%);z-index:70;
   display:flex;align-items:center;gap:14px;padding:10px 14px;
-  background:var(--head);backdrop-filter:blur(18px) saturate(1.4);
-  border:1px solid rgba(34,211,238,.32);border-radius:var(--r-xl);
-  box-shadow:0 18px 50px -18px rgba(0,0,0,.8), var(--glow);
-  transition:transform .26s cubic-bezier(.2,.9,.25,1);
+  background:var(--surface);border:1px solid var(--brand-line);border-radius:var(--r-xl);
+  box-shadow:var(--shadow-l);transition:transform .25s cubic-bezier(.2,.9,.25,1);
 }
 .batchbar.is-show{transform:translate(-50%,0)}
 .batchbar__n{font-size:12px;color:var(--text-2)}
-.batchbar__n b{font-family:var(--mono);font-size:16px;color:var(--cyan);margin:0 3px}
+.batchbar__n b{font-family:var(--mono);font-size:16px;color:var(--brand);margin:0 3px}
 
-/* ---------- 分页 ---------- */
 .pager{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:20px}
 .pager button{
-  min-width:30px;height:30px;padding:0 9px;border-radius:var(--r-sm);
-  border:1px solid var(--line);background:var(--panel);color:var(--text-2);
-  font-family:var(--mono);font-size:12px;cursor:pointer;transition:var(--dur);
+  min-width:31px;height:31px;padding:0 9px;border-radius:var(--r-sm);border:1px solid var(--line-2);
+  background:var(--surface);color:var(--text-2);font-family:var(--mono);font-size:12px;cursor:pointer;transition:var(--dur);
 }
-.pager button:hover{border-color:var(--cyan);color:var(--text)}
-.pager button[aria-current="page"]{
-  background:linear-gradient(135deg,var(--cyan),var(--blue));color:#04121c;border-color:transparent;font-weight:700;
-}
-html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
+.pager button:hover{border-color:var(--brand);color:var(--brand)}
+.pager button[aria-current="page"]{background:var(--brand);color:#fff;border-color:transparent;font-weight:700}
 .pager span{font-size:12px;color:var(--text-3);margin:0 6px}
 
-/* ---------- 自定义 tooltip ---------- */
+/* tooltip */
 [data-tip]{position:relative}
 [data-tip]:hover::after{
   content:attr(data-tip);position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);
-  background:#0b1120;color:#e9eefb;font-size:11px;padding:4px 8px;border-radius:5px;white-space:nowrap;
-  border:1px solid rgba(255,255,255,.14);box-shadow:0 8px 20px -8px rgba(0,0,0,.8);z-index:60;pointer-events:none;
+  background:#1f2937;color:#fff;font-size:11px;padding:4px 8px;border-radius:5px;white-space:nowrap;
+  box-shadow:0 6px 18px -6px rgba(0,0,0,.4);z-index:60;pointer-events:none;font-weight:400;
 }
 [data-tip]:hover::before{
   content:"";position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);
-  border:4px solid transparent;border-top-color:#0b1120;z-index:60;pointer-events:none;
+  border:4px solid transparent;border-top-color:#1f2937;z-index:60;pointer-events:none;
 }
 
-/* ============================================================
-   响应式：按决策权重逐级降维
-   规格 / 单价 / 供应商名 永不隐藏
-   ============================================================ */
+/* 说明卡 */
+.notice{
+  margin:0 0 12px;padding:11px 14px;border-radius:var(--r-lg);
+  background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--brand);
+  font-size:12px;color:var(--text-2);line-height:1.75;box-shadow:var(--shadow-s);
+}
+.notice b{color:var(--brand-deep)}
+html[data-theme="dark"] .notice b{color:var(--brand-2)}
+.notice code{font-family:var(--mono);font-size:11px;background:var(--surface-3);padding:1px 5px;border-radius:4px;color:var(--text)}
+
+/* ==================== 响应式：按决策权重逐级降维 ==================== */
 @media (max-width:1400px){
   :root{--cols:52px minmax(170px,1fr) minmax(220px,1.5fr) minmax(112px,.8fr) minmax(160px,1fr) 168px}
   .ops .btn--ghost{display:none}
+  .fgrid{grid-template-columns:repeat(2,minmax(250px,1fr))}
 }
 @media (max-width:1180px){
-  /* 先砍产地 / 发货地（可在展开层查看） */
   .meta__i--place{display:none}
   :root{--cols:46px minmax(140px,.9fr) minmax(200px,1.6fr) minmax(100px,.7fr) minmax(150px,1fr) 118px}
   .sup__avatar{display:none}
   .ops .iconbtn--fav{display:none}
 }
 @media (max-width:980px){
-  /* 数量块下沉到货物块的副行 */
   :root{--cols:40px minmax(130px,.9fr) minmax(190px,1.7fr) minmax(146px,1fr) 96px}
   .cell--qty{display:none}
-  .qty__inline{display:flex !important}
+  .qty__inline{display:flex!important}
+  .fgrid,.fgrid--2{grid-template-columns:1fr}
 }
 @media (max-width:760px){
-  /* 转为纵向卡片：规格与单价仍在首屏 */
   .row__main{grid-template-columns:1fr auto;gap:10px 12px;padding:12px}
   .cell--check{grid-column:1/-1;order:-1}
   .cell--supplier{grid-column:1/2}
@@ -485,132 +623,243 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
   .thead{display:none}
   .goods__spec{font-size:18px;white-space:normal}
   .wrap{padding:14px 12px 60px}
-  .searchbox{min-width:0;width:100%;order:9}
+  .gsearch{min-width:0;width:100%;order:9}
+  .fitem__lb,.chiprow__lb{width:52px}
+  .dim{flex-wrap:wrap}
+  .dim__out{width:100%;flex:none}
 }
 .qty__inline{display:none;gap:6px;align-items:center;font-size:11px;color:var(--text-3);margin-top:5px}
 .qty__inline b{font-family:var(--mono);color:var(--text-2);font-size:12px}
-
-/* 说明卡 */
-.notice{
-  margin:0 0 14px;padding:12px 14px;border-radius:var(--r-lg);
-  background:linear-gradient(120deg,rgba(34,211,238,.08),rgba(77,141,255,.05));
-  border:1px solid rgba(34,211,238,.2);font-size:12px;color:var(--text-2);line-height:1.75;
-}
-.notice b{color:var(--cyan)}
-.notice code{
-  font-family:var(--mono);font-size:11px;background:var(--panel-hi);
-  padding:1px 5px;border-radius:4px;color:var(--text);
-}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- ============ 顶栏 ============ -->
+  <!-- ==================== 顶栏 ==================== -->
   <header class="topbar">
     <div class="logo">
       <span class="logo__mark">货</span>
       <span>货袋子<small>&nbsp;STEEL&nbsp;RESOURCE</small></span>
     </div>
     <div class="topbar__sp"></div>
-    <div class="searchbox">
-      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3)">
-        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
-      </svg>
-      <input placeholder="搜索品类 / 规格 / 材质 / 供应商，如：镀锌圆管 1寸*2.75" />
+    <div class="gsearch">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3)"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input placeholder="全局搜索：品类 / 规格 / 材质 / 企业" />
       <kbd>/</kbd>
     </div>
-    <button class="iconbtn" id="themeBtn" data-tip="切换浅色 / 深色">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/>
-      </svg>
+    <button class="iconbtn" id="themeBtn" data-tip="切换深色（默认亮色）">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A8.5 8.5 0 1111.2 3a6.6 6.6 0 009.8 9.8z"/></svg>
     </button>
   </header>
 
   <div class="notice">
-    <b>设计说明</b>　原列表把 20 个字段平铺成 20 列，低分辨率下规格被挤压、资质标签与供应商信息互相干扰。此稿把字段按<b>决策权重</b>重组为 6 个视觉块：
-    <code>序号</code> · <code>供应商身份（供应商+等级+资质）</code> · <code>货物（规格为视觉主角）</code> · <code>数量</code> · <code>价格（单价+涨跌+昨日+计价方式）</code> · <code>操作</code>；
-    包装数量、单位磅重、负差、更新时间、备注等低频字段收进<b>展开层</b>。规格、单价、供应商名在任何分辨率下永不隐藏。
+    <b>本稿改动</b>　① 主题改为<b>亮色为主</b>，强调色统一为品牌橙 <code>#ff6a00</code>；冷色「数据蓝」只承担图标、单位、区间回显等辅助信息。
+    ② 搜索区重构为<b>三段语义分组</b>，尺寸公差改为<b>「基准值 + 公差档位 + 实时区间回显」</b>复合控件，且<b>维度随品类动态加载</b>。
+    ③ 列表保持 6 视觉块 + 展开层，20 个字段一个不少。
   </div>
 
-  <!-- ============ 筛选 ============ -->
-  <section class="filters">
-    <div class="frow">
-      <div class="frow__label">品类</div>
-      <div class="frow__body">
-        <button class="chip" aria-pressed="true">全部</button>
-        <button class="chip">镀锌圆管</button>
-        <button class="chip">焊接钢管</button>
-        <button class="chip">方矩管</button>
-        <button class="chip">螺纹钢</button>
-        <button class="chip">热轧卷板</button>
-        <button class="chip">中厚板</button>
-        <button class="chip">型钢</button>
-        <button class="chip">五金配件</button>
+  <!-- ==========================================================
+       一、资源筛选面板
+       ========================================================== -->
+  <section class="panel">
+    <div class="panel__hd">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18l-7 8v6l-4-2v-4z"/></svg>
+        资源筛选
+      </h2>
+      <div class="sp"></div>
+      <button class="btn btn--sm">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        历史条件
+      </button>
+      <button class="btn btn--sm" id="foldBtn">
+        收起
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 15l6-6 6 6"/></svg>
+      </button>
+    </div>
+
+    <div class="panel__bd">
+
+      <!-- ① 找什么货 -->
+      <div class="fgroup">
+        <div class="fgroup__t"><i>1</i>找什么货 <em>· 品类决定规格维度，建议先选品类</em></div>
+        <div class="fgrid">
+          <div class="fitem">
+            <div class="fitem__lb">品类</div>
+            <div class="field">
+              <span class="field__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/></svg></span>
+              <input id="catInput" value="矩管" placeholder="搜索或选择品类" />
+              <button class="field__pick" id="catPick">选择<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+          </div>
+          <div class="fitem">
+            <div class="fitem__lb">材质</div>
+            <div class="field">
+              <span class="field__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/></svg></span>
+              <input value="Q235B" placeholder="搜索材质" />
+              <button class="field__pick">选择<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+          </div>
+          <div class="fitem">
+            <div class="fitem__lb">规格</div>
+            <div class="field">
+              <span class="field__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h18"/></svg></span>
+              <input placeholder="如 6000*200*3.0" />
+              <button class="field__pick">选择<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 尺寸与公差：原设计问题最集中处，整体重做 -->
+        <div class="dimbox" id="dimbox">
+          <div class="dimbox__hd">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 16l5-5 4 4 5-5 4 4"/><path d="M3 20h18"/></svg>
+            尺寸与公差
+            <span class="dimbox__hint">已按品类 <b id="dimCat">矩管</b> 加载维度：<b id="dimList">长度 × 宽度 × 壁厚</b></span>
+            <div class="sp"></div>
+            <span class="dimbox__hint" style="color:var(--text-3)">公差档位按维度设定，可自定义</span>
+          </div>
+          <div class="dimbox__bd" id="dimBody">
+            <div class="dims" id="dims"><!-- JS 按品类渲染 --></div>
+          </div>
+          <div class="lockhint" id="lockHint" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+            <span><b>请先选择品类</b>，系统会自动加载该品类对应的规格维度（如矩管为长×宽×壁厚，圆管为外径×壁厚×定尺）</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ② 从哪发货 -->
+      <div class="fgroup">
+        <div class="fgroup__t"><i>2</i>从哪发货 <em>· 提货半径直接影响到岸成本</em></div>
+        <div class="fgrid">
+          <div class="fitem">
+            <div class="fitem__lb">产地</div>
+            <div class="field">
+              <span class="field__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20V10l5 3V10l5 3V8l8 4v8z"/></svg></span>
+              <input placeholder="搜索产地 / 钢厂" />
+              <button class="field__pick">选择<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+          </div>
+          <div class="fitem">
+            <div class="fitem__lb">发货地</div>
+            <div class="field">
+              <span class="field__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span>
+              <input value="天津大邱庄" placeholder="选择发货地" />
+              <button class="field__pick">选择<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+          </div>
+          <div class="fitem">
+            <div class="fitem__lb">计价</div>
+            <div class="seg seg--mono" style="flex:1">
+              <button aria-pressed="true">不限</button>
+              <button aria-pressed="false">过磅</button>
+              <button aria-pressed="false">理计</button>
+              <button aria-pressed="false">件计</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ 找谁买 -->
+      <div class="fgroup">
+        <div class="fgroup__t"><i>3</i>找谁买 <em>· 会员等级是商业等级，资质是可核验事实，两者不同维度</em></div>
+        <div class="fgrid fgrid--2" style="margin-bottom:11px">
+          <div class="fitem">
+            <div class="fitem__lb">企业名称</div>
+            <div class="field">
+              <span class="field__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h6"/></svg></span>
+              <input placeholder="搜索企业名称" />
+            </div>
+          </div>
+          <div class="fitem">
+            <div class="fitem__lb">库存状态</div>
+            <div class="seg" style="flex:1">
+              <button aria-pressed="true">不限</button>
+              <button aria-pressed="false">现货</button>
+              <button aria-pressed="false">可当日装车</button>
+              <button aria-pressed="false">期货 / 排产</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="chiprow" style="margin-bottom:9px">
+          <div class="chiprow__lb">会员等级</div>
+          <div class="chips">
+            <button class="chip chip--plain" aria-pressed="true">全部</button>
+            <span class="chip__sep"></span>
+            <button class="chip chip--t1"><span class="tierdot" style="background:#e85d00"></span>旗舰版</button>
+            <button class="chip chip--t2"><span class="tierdot" style="background:#7c4dff"></span>尊享版</button>
+            <button class="chip chip--t3"><span class="tierdot" style="background:#0d84c8"></span>专业版</button>
+            <button class="chip chip--t4"><span class="tierdot" style="background:#d99400"></span>认证版</button>
+            <button class="chip"><span class="tierdot" style="background:var(--text-3)"></span>免费版</button>
+          </div>
+        </div>
+
+        <div class="chiprow">
+          <div class="chiprow__lb">资质</div>
+          <div class="chips">
+            <button class="chip chip--plain" aria-pressed="true">全部</button>
+            <span class="chip__sep"></span>
+            <button class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:#d99400"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>认证商家</button>
+            <button class="chip" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 10l9-6 9 6v10H3z"/><path d="M9 20v-6h6v6"/></svg>实地验仓</button>
+            <button class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:#e85d00"><path d="M3 20V10l5 3V10l5 3V8l8 4v8z"/></svg>钢厂直供</button>
+            <button class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:#7c4dff"><circle cx="12" cy="12" r="3"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2M6.5 6.5L8 8M16 16l1.5 1.5M17.5 6.5L16 8M8 16l-1.5 1.5"/></svg>生产厂家</button>
+            <button class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:#0d84c8"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h6M9 16h4"/></svg>质保可查</button>
+            <button class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:#0ea56a"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>信用核查</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="frow">
-      <div class="frow__label">材质</div>
-      <div class="frow__body">
-        <button class="chip" aria-pressed="true">全部</button>
-        <button class="chip">Q235B</button>
-        <button class="chip">Q195</button>
-        <button class="chip">Q355B</button>
-        <button class="chip">HRB400E</button>
-        <button class="chip">SPHC</button>
+
+    <!-- 已选条件回显 + 主操作 -->
+    <div class="panel__ft">
+      <div class="picked">
+        <span class="picked__lb">已选 <b id="pickedN">5</b> 项</span>
+        <span class="ptag">矩管 <button data-x>×</button></span>
+        <span class="ptag">Q235B <button data-x>×</button></span>
+        <span class="ptag">长度 <em>6000±1</em> <button data-x>×</button></span>
+        <span class="ptag">壁厚 <em>3.0±0.1</em> <button data-x>×</button></span>
+        <span class="ptag">实地验仓 <button data-x>×</button></span>
+        <button class="btn btn--text btn--sm" id="clearAll">清空</button>
       </div>
-    </div>
-    <div class="frow">
-      <div class="frow__label">发货地</div>
-      <div class="frow__body">
-        <button class="chip" aria-pressed="true">全部</button>
-        <button class="chip">天津大邱庄</button>
-        <button class="chip">佛山乐从</button>
-        <button class="chip">上海</button>
-        <button class="chip">无锡</button>
-        <button class="chip">唐山</button>
-      </div>
-    </div>
-    <div class="frow">
-      <div class="frow__label">已选</div>
-      <div class="frow__body">
-        <button class="chip" aria-pressed="true">镀锌圆管 <span class="chip__x">×</span></button>
-        <button class="chip" aria-pressed="true">现货 <span class="chip__x">×</span></button>
-        <button class="btn btn--sm" style="margin-left:4px">清空条件</button>
+      <div class="acts">
+        <span class="hint">匹配 <b>1,286</b> 条</span>
+        <button class="btn">重置</button>
+        <button class="btn btn--primary btn--lg">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          查询
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- ============ 工具条 ============ -->
+  <!-- ==================== 工具条 ==================== -->
   <div class="toolbar">
-    <div class="count">共<b>1,286</b>条资源 · 更新于 <span style="font-family:var(--mono)">2026-08-18 08:12</span></div>
+    <div class="count">共<b>1,286</b>条资源 · 更新于 <span>2026-08-18 08:12</span></div>
     <div class="toolbar__sp"></div>
     <div class="legend">
       <span><i style="background:var(--up)"></i>涨</span>
       <span><i style="background:var(--down)"></i>跌</span>
-      <span style="color:var(--text-3)">磅计 / 理计 = 计价方式</span>
+      <span>磅计 / 理计 = 计价方式</span>
     </div>
     <div class="seg" role="group" aria-label="视图切换">
       <button id="vComfy" aria-pressed="true">
-        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/></svg>
-        舒适
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/></svg>舒适
       </button>
       <button id="vTable" aria-pressed="false">
-        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18M3 10h18M3 15h18M3 20h18"/></svg>
-        紧凑
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18M3 10h18M3 15h18M3 20h18"/></svg>紧凑
       </button>
     </div>
     <button class="btn" id="colBtn">
-      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h13"/><circle cx="18" cy="12" r="2"/></svg>
-      列配置
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h13"/><circle cx="18" cy="12" r="2"/></svg>列配置
     </button>
     <button class="btn">
-      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>
-      导出
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>导出
     </button>
   </div>
 
-  <!-- ============ 表头（舒适视图） ============ -->
+  <!-- ==================== 表头 ==================== -->
   <div class="thead">
     <div class="thead__cell">序号</div>
     <div class="thead__cell">供应商 / 等级 / 资质</div>
@@ -620,110 +869,31 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
     <div class="thead__cell thead__cell--r">操作</div>
   </div>
 
-  <!-- ============ 列表（舒适视图） ============ -->
+  <!-- ==================== 列表 ==================== -->
   <div class="list" id="list">
 
-    <!-- ---------- 行 1 ---------- -->
     <article class="row" data-row>
       <div class="row__main">
         <label class="cell cell--check"><input type="checkbox" class="ck" /><span class="idx">01</span></label>
-
         <div class="cell cell--supplier">
           <div class="sup">
             <div class="sup__avatar">新钢</div>
             <div class="sup__body">
-              <div class="sup__name"><a href="#">新钢集散地</a><span class="lv lv--flag">旗舰</span></div>
+              <div class="sup__name"><a href="#">新钢集散地</a><span class="lv lv--flag">旗舰版</span></div>
               <div class="quals">
                 <span class="q q--cert" data-tip="认证商家 · 营业执照已核验"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
                 <span class="q q--yard" data-tip="实地验仓 · 平台已到场核验库存"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 10l9-6 9 6v10H3z"/><path d="M9 20v-6h6v6"/></svg></span>
                 <span class="q q--mill" data-tip="钢厂直供 · 一级代理授权"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 20V10l5 3V10l5 3V8l8 4v8z"/></svg></span>
-                <span class="q q--maker" data-tip="生产厂家"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/></svg></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="cell cell--goods goods">
-          <div class="goods__spec">1寸 <em>×</em> 2.75</div>
-          <div class="goods__meta">
-            <span class="tag tag--cat">镀锌圆管</span>
-            <span class="tag tag--mat">Q235B</span>
-            <span class="tag tag--stock">现货</span>
-            <span class="meta__i meta__i--place" data-tip="产地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V9l7-5 7 5v12z"/></svg><b>友发</b></span>
-            <span class="meta__i meta__i--place" data-tip="发货地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><b>天津大邱庄</b></span>
-          </div>
-          <div class="qty__inline"><span>重量</span><b>0.871 吨</b><span>·</span><span>零数</span><b>71 支</b></div>
-        </div>
-
-        <div class="cell cell--qty qty">
-          <div class="qty__main">0.871<i>吨</i></div>
-          <div class="qty__sub"><span>整件 <b>/</b></span><span>零数 <b>71 支</b></span></div>
-        </div>
-
-        <div class="cell cell--price price">
-          <div class="price__main"><span class="cur">¥</span><b>3,849.90</b><i>/件</i></div>
-          <div class="price__sub">
-            <span class="chip--calc">件计 · 含税</span>
-            <span class="delta delta--down">▼1,283.33</span>
-            <span class="ref">昨 5,133.23</span>
-          </div>
-        </div>
-
-        <div class="cell cell--ops ops">
-          <button class="btn btn--primary btn--sm">询价</button>
-          <button class="btn btn--sm btn--ghost">加购</button>
-          <button class="iconbtn" data-tip="在线咨询"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 01-8 8H7l-4 3V12a8 8 0 018-8h2a8 8 0 018 8z"/></svg></button>
-          <button class="iconbtn iconbtn--fav" data-tip="关注"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 9.7l5.4-.8z"/></svg></button>
-          <button class="iconbtn expand" data-expand data-tip="展开明细"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
-        </div>
-      </div>
-
-      <div class="row__detail">
-        <div class="dwrap">
-          <div class="dgrid">
-            <div class="d"><span>包装数量</span><b>—</b></div>
-            <div class="d"><span>数量</span><b>71 支</b></div>
-            <div class="d"><span>整件 / 零数</span><b>/ &nbsp;·&nbsp; 71</b></div>
-            <div class="d"><span>单位磅重</span><b>0.01227 吨/支</b></div>
-            <div class="d"><span>负差</span><b class="neg">-3.0%</b></div>
-            <div class="d"><span>昨日价格</span><b>5,133.23 元/件</b></div>
-            <div class="d"><span>产地</span><b class="txt">天津友发</b></div>
-            <div class="d"><span>发货地</span><b class="txt">天津大邱庄</b></div>
-            <div class="d"><span>更新时间</span><b>2026-08-18 08:06</b></div>
-          </div>
-          <div class="note">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
-            <div><b>备注：</b>件计价，1 件 = 71 支；按理计结算，负差 3% 以内不另议。整车提货可议价，需开 13% 专票请提前告知。</div>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <!-- ---------- 行 2 ---------- -->
-    <article class="row" data-row>
-      <div class="row__main">
-        <label class="cell cell--check"><input type="checkbox" class="ck" /><span class="idx">02</span></label>
-        <div class="cell cell--supplier">
-          <div class="sup">
-            <div class="sup__avatar">新钢</div>
-            <div class="sup__body">
-              <div class="sup__name"><a href="#">新钢集散地</a><span class="lv lv--flag">旗舰</span></div>
-              <div class="quals">
-                <span class="q q--cert" data-tip="认证商家"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
-                <span class="q q--yard" data-tip="实地验仓"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 10l9-6 9 6v10H3z"/><path d="M9 20v-6h6v6"/></svg></span>
-                <span class="q q--mill" data-tip="钢厂直供"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 20V10l5 3V10l5 3V8l8 4v8z"/></svg></span>
-                <span class="q q--more" data-tip="生产厂家">+1</span>
+                <span class="q q--maker" data-tip="生产厂家"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2M6.5 6.5L8 8M16 16l1.5 1.5M17.5 6.5L16 8M8 16l-1.5 1.5"/></svg></span>
               </div>
             </div>
           </div>
         </div>
         <div class="cell cell--goods goods">
-          <div class="goods__spec">478 <em>×</em> 5.5</div>
+          <div class="goods__spec">6000 <em>×</em> 200 <em>×</em> 3.0</div>
           <div class="goods__meta">
-            <span class="tag tag--cat">镀锌圆管</span>
-            <span class="tag tag--mat">Q235B</span>
-            <span class="tag tag--stock">现货</span>
-            <span class="meta__i meta__i--place" data-tip="产地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V9l7-5 7 5v12z"/></svg><b>正大</b></span>
+            <span class="tag tag--cat">矩管</span><span class="tag tag--mat">Q235B</span><span class="tag tag--stock">现货</span>
+            <span class="meta__i meta__i--place" data-tip="产地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20V10l5 3V10l5 3V8l8 4v8z"/></svg><b>友发</b></span>
             <span class="meta__i meta__i--place" data-tip="发货地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><b>天津大邱庄</b></span>
           </div>
           <div class="qty__inline"><span>重量</span><b>38.813 吨</b><span>·</span><span>整件</span><b>49 件</b></div>
@@ -734,11 +904,7 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
         </div>
         <div class="cell cell--price price">
           <div class="price__main"><span class="cur">¥</span><b>3,450.00</b><i>/吨</i></div>
-          <div class="price__sub">
-            <span class="chip--calc">磅计 · 含税</span>
-            <span class="delta delta--down">▼1,150.00</span>
-            <span class="ref">昨 4,600.00</span>
-          </div>
+          <div class="price__sub"><span class="chip--calc">磅计 · 含税</span><span class="delta delta--down">▼1,150.00</span><span class="ref">昨 4,600.00</span></div>
         </div>
         <div class="cell cell--ops ops">
           <button class="btn btn--primary btn--sm">询价</button>
@@ -748,36 +914,33 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
           <button class="iconbtn expand" data-expand data-tip="展开明细"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         </div>
       </div>
-      <div class="row__detail">
-        <div class="dwrap">
-          <div class="dgrid">
-            <div class="d"><span>包装数量</span><b>20 支/件</b></div>
-            <div class="d"><span>数量</span><b>980 支</b></div>
-            <div class="d"><span>整件 / 零数</span><b>49 &nbsp;·&nbsp; /</b></div>
-            <div class="d"><span>单位磅重</span><b>0.79210 吨/件</b></div>
-            <div class="d"><span>负差</span><b class="neg">-0.15 mm</b></div>
-            <div class="d"><span>昨日价格</span><b>4,600.00 元/吨</b></div>
-            <div class="d"><span>产地</span><b class="txt">唐山正大</b></div>
-            <div class="d"><span>发货地</span><b class="txt">天津大邱庄</b></div>
-            <div class="d"><span>更新时间</span><b>2026-08-18 07:58</b></div>
-          </div>
-          <div class="note">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
-            <div><b>备注：</b>过磅计价，磅差以平台核验磅单为准；壁厚负差 0.15mm，需足厚请选加厚款。整车 35 吨起送，天津市内可配车。</div>
-          </div>
+      <div class="row__detail"><div class="dwrap">
+        <div class="dgrid">
+          <div class="d"><span>包装数量</span><b>20 支/件</b></div>
+          <div class="d"><span>数量</span><b>980 支</b></div>
+          <div class="d"><span>整件 / 零数</span><b>49 · /</b></div>
+          <div class="d"><span>单位磅重</span><b>0.79210 吨/件</b></div>
+          <div class="d"><span>负差</span><b class="neg">-0.15 mm</b></div>
+          <div class="d"><span>昨日价格</span><b>4,600.00 元/吨</b></div>
+          <div class="d"><span>产地</span><b class="txt">天津友发</b></div>
+          <div class="d"><span>发货地</span><b class="txt">天津大邱庄</b></div>
+          <div class="d"><span>更新时间</span><b>2026-08-18 08:06</b></div>
         </div>
-      </div>
+        <div class="note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
+          <div><b>备注：</b>过磅计价，磅差以平台核验磅单为准；壁厚负差 0.15mm，需足厚请选加厚款。整车 35 吨起送，天津市内可配车。</div>
+        </div>
+      </div></div>
     </article>
 
-    <!-- ---------- 行 3 ---------- -->
     <article class="row" data-row>
       <div class="row__main">
-        <label class="cell cell--check"><input type="checkbox" class="ck" /><span class="idx">03</span></label>
+        <label class="cell cell--check"><input type="checkbox" class="ck" /><span class="idx">02</span></label>
         <div class="cell cell--supplier">
           <div class="sup">
             <div class="sup__avatar">新钢</div>
             <div class="sup__body">
-              <div class="sup__name"><a href="#">新钢集散地</a><span class="lv lv--flag">旗舰</span></div>
+              <div class="sup__name"><a href="#">新钢集散地</a><span class="lv lv--flag">旗舰版</span></div>
               <div class="quals">
                 <span class="q q--cert" data-tip="认证商家"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
                 <span class="q q--yard" data-tip="实地验仓"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 10l9-6 9 6v10H3z"/><path d="M9 20v-6h6v6"/></svg></span>
@@ -788,27 +951,21 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
           </div>
         </div>
         <div class="cell cell--goods goods">
-          <div class="goods__spec">6分 <em>×</em> 1.7</div>
+          <div class="goods__spec">1寸 <em>×</em> 2.75</div>
           <div class="goods__meta">
-            <span class="tag tag--cat">镀锌圆管</span>
-            <span class="tag tag--mat">Q195</span>
-            <span class="tag tag--tight">库存紧张</span>
-            <span class="meta__i meta__i--place" data-tip="产地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V9l7-5 7 5v12z"/></svg><b>华岐</b></span>
+            <span class="tag tag--cat">镀锌圆管</span><span class="tag tag--mat">Q235B</span><span class="tag tag--stock">现货</span>
+            <span class="meta__i meta__i--place" data-tip="产地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20V10l5 3V10l5 3V8l8 4v8z"/></svg><b>友发</b></span>
             <span class="meta__i meta__i--place" data-tip="发货地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><b>天津大邱庄</b></span>
           </div>
-          <div class="qty__inline"><span>重量</span><b>0.653 吨</b><span>·</span><span>零数</span><b>100 支</b></div>
+          <div class="qty__inline"><span>重量</span><b>0.871 吨</b><span>·</span><span>零数</span><b>71 支</b></div>
         </div>
         <div class="cell cell--qty qty">
-          <div class="qty__main">0.653<i>吨</i></div>
-          <div class="qty__sub"><span>整件 <b>/</b></span><span>零数 <b>100 支</b></span></div>
+          <div class="qty__main">0.871<i>吨</i></div>
+          <div class="qty__sub"><span>整件 <b>/</b></span><span>零数 <b>71 支</b></span></div>
         </div>
         <div class="cell cell--price price">
-          <div class="price__main"><span class="cur">¥</span><b>3,450.00</b><i>/吨</i></div>
-          <div class="price__sub">
-            <span class="chip--calc">磅计 · 含税</span>
-            <span class="delta delta--down">▼1,150.00</span>
-            <span class="ref">昨 4,600.00</span>
-          </div>
+          <div class="price__main"><span class="cur">¥</span><b>3,849.90</b><i>/件</i></div>
+          <div class="price__sub"><span class="chip--calc">件计 · 含税</span><span class="delta delta--down">▼1,283.33</span><span class="ref">昨 5,133.23</span></div>
         </div>
         <div class="cell cell--ops ops">
           <button class="btn btn--primary btn--sm">询价</button>
@@ -818,36 +975,33 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
           <button class="iconbtn expand" data-expand data-tip="展开明细"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         </div>
       </div>
-      <div class="row__detail">
-        <div class="dwrap">
-          <div class="dgrid">
-            <div class="d"><span>包装数量</span><b>—</b></div>
-            <div class="d"><span>数量</span><b>100 支</b></div>
-            <div class="d"><span>整件 / 零数</span><b>/ &nbsp;·&nbsp; 100</b></div>
-            <div class="d"><span>单位磅重</span><b>0.00653 吨/支</b></div>
-            <div class="d"><span>负差</span><b class="neg">-3.0%</b></div>
-            <div class="d"><span>昨日价格</span><b>4,600.00 元/吨</b></div>
-            <div class="d"><span>产地</span><b class="txt">天津华岐</b></div>
-            <div class="d"><span>发货地</span><b class="txt">天津大邱庄</b></div>
-            <div class="d"><span>更新时间</span><b>2026-08-18 07:41</b></div>
-          </div>
-          <div class="note">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
-            <div><b>备注：</b>剩余零散 100 支，先到先得，不留货。需要整件请咨询排产周期（约 3–5 天）。</div>
-          </div>
+      <div class="row__detail"><div class="dwrap">
+        <div class="dgrid">
+          <div class="d"><span>包装数量</span><b>—</b></div>
+          <div class="d"><span>数量</span><b>71 支</b></div>
+          <div class="d"><span>整件 / 零数</span><b>/ · 71</b></div>
+          <div class="d"><span>单位磅重</span><b>0.01227 吨/支</b></div>
+          <div class="d"><span>负差</span><b class="neg">-3.0%</b></div>
+          <div class="d"><span>昨日价格</span><b>5,133.23 元/件</b></div>
+          <div class="d"><span>产地</span><b class="txt">天津友发</b></div>
+          <div class="d"><span>发货地</span><b class="txt">天津大邱庄</b></div>
+          <div class="d"><span>更新时间</span><b>2026-08-18 08:06</b></div>
         </div>
-      </div>
+        <div class="note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
+          <div><b>备注：</b>件计价，1 件 = 71 支；按理计结算，负差 3% 以内不另议。整车提货可议价，需开 13% 专票请提前告知。</div>
+        </div>
+      </div></div>
     </article>
 
-    <!-- ---------- 行 4：涨价示例 ---------- -->
     <article class="row" data-row>
       <div class="row__main">
-        <label class="cell cell--check"><input type="checkbox" class="ck" /><span class="idx">04</span></label>
+        <label class="cell cell--check"><input type="checkbox" class="ck" /><span class="idx">03</span></label>
         <div class="cell cell--supplier">
           <div class="sup">
-            <div class="sup__avatar" style="background:linear-gradient(140deg,rgba(255,176,32,.2),rgba(255,92,43,.14));color:var(--gold);border-color:rgba(255,176,32,.24)">正大</div>
+            <div class="sup__avatar" style="background:rgba(167,139,250,.14);color:#7c4dff;border-color:rgba(124,77,255,.3)">正大</div>
             <div class="sup__body">
-              <div class="sup__name"><a href="#">正大钢管销售中心</a><span class="lv lv--gold">金牌</span></div>
+              <div class="sup__name"><a href="#">正大钢管销售中心</a><span class="lv lv--zx">尊享版</span></div>
               <div class="quals">
                 <span class="q q--cert" data-tip="认证商家"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
                 <span class="q q--mill" data-tip="钢厂直供"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 20V10l5 3V10l5 3V8l8 4v8z"/></svg></span>
@@ -858,10 +1012,8 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
         <div class="cell cell--goods goods">
           <div class="goods__spec">4分 <em>×</em> 1.8</div>
           <div class="goods__meta">
-            <span class="tag tag--cat">镀锌圆管</span>
-            <span class="tag tag--mat">Q235B</span>
-            <span class="tag tag--stock">现货</span>
-            <span class="meta__i meta__i--place" data-tip="产地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V9l7-5 7 5v12z"/></svg><b>金洲</b></span>
+            <span class="tag tag--cat">镀锌圆管</span><span class="tag tag--mat">Q235B</span><span class="tag tag--stock">现货</span>
+            <span class="meta__i meta__i--place" data-tip="产地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20V10l5 3V10l5 3V8l8 4v8z"/></svg><b>金洲</b></span>
             <span class="meta__i meta__i--place" data-tip="发货地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><b>无锡</b></span>
           </div>
           <div class="qty__inline"><span>重量</span><b>0.609 吨</b><span>·</span><span>零数</span><b>123 支</b></div>
@@ -872,11 +1024,7 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
         </div>
         <div class="cell cell--price price">
           <div class="price__main"><span class="cur">¥</span><b>3,510.00</b><i>/吨</i></div>
-          <div class="price__sub">
-            <span class="chip--calc">理计 · 含税</span>
-            <span class="delta delta--up">▲60.00</span>
-            <span class="ref">昨 3,450.00</span>
-          </div>
+          <div class="price__sub"><span class="chip--calc">理计 · 含税</span><span class="delta delta--up">▲60.00</span><span class="ref">昨 3,450.00</span></div>
         </div>
         <div class="cell cell--ops ops">
           <button class="btn btn--primary btn--sm">询价</button>
@@ -886,28 +1034,84 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
           <button class="iconbtn expand" data-expand data-tip="展开明细"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         </div>
       </div>
-      <div class="row__detail">
-        <div class="dwrap">
-          <div class="dgrid">
-            <div class="d"><span>包装数量</span><b>—</b></div>
-            <div class="d"><span>数量</span><b>123 支</b></div>
-            <div class="d"><span>整件 / 零数</span><b>/ &nbsp;·&nbsp; 123</b></div>
-            <div class="d"><span>单位磅重</span><b>0.00495 吨/支</b></div>
-            <div class="d"><span>负差</span><b class="txt" style="color:var(--down)">足厚（无负差）</b></div>
-            <div class="d"><span>昨日价格</span><b>3,450.00 元/吨</b></div>
-            <div class="d"><span>产地</span><b class="txt">浙江金洲</b></div>
-            <div class="d"><span>发货地</span><b class="txt">无锡锡山</b></div>
-            <div class="d"><span>更新时间</span><b>2026-08-18 08:10</b></div>
-          </div>
-          <div class="note">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
-            <div><b>备注：</b>理计结算，足厚国标管，提供质保书与材质单。今日盘面上行已跟涨 60 元/吨，报价有效期 2 小时。</div>
-          </div>
+      <div class="row__detail"><div class="dwrap">
+        <div class="dgrid">
+          <div class="d"><span>包装数量</span><b>—</b></div>
+          <div class="d"><span>数量</span><b>123 支</b></div>
+          <div class="d"><span>整件 / 零数</span><b>/ · 123</b></div>
+          <div class="d"><span>单位磅重</span><b>0.00495 吨/支</b></div>
+          <div class="d"><span>负差</span><b class="txt" style="color:var(--down)">足厚（无负差）</b></div>
+          <div class="d"><span>昨日价格</span><b>3,450.00 元/吨</b></div>
+          <div class="d"><span>产地</span><b class="txt">浙江金洲</b></div>
+          <div class="d"><span>发货地</span><b class="txt">无锡锡山</b></div>
+          <div class="d"><span>更新时间</span><b>2026-08-18 08:10</b></div>
         </div>
-      </div>
+        <div class="note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
+          <div><b>备注：</b>理计结算，足厚国标管，提供质保书与材质单。今日盘面上行已跟涨 60 元/吨，报价有效期 2 小时。</div>
+        </div>
+      </div></div>
     </article>
 
-    <!-- ---------- 行 5：电询 + 平价 ---------- -->
+    <article class="row" data-row>
+      <div class="row__main">
+        <label class="cell cell--check"><input type="checkbox" class="ck" /><span class="idx">04</span></label>
+        <div class="cell cell--supplier">
+          <div class="sup">
+            <div class="sup__avatar" style="background:rgba(251,191,36,.14);color:#d99400;border-color:rgba(217,148,0,.3)">恒鑫</div>
+            <div class="sup__body">
+              <div class="sup__name"><a href="#">恒鑫物贸（上海）</a><span class="lv lv--gold">认证版</span></div>
+              <div class="quals">
+                <span class="q q--cert" data-tip="认证商家"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+                <span class="q q--yard" data-tip="实地验仓"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 10l9-6 9 6v10H3z"/><path d="M9 20v-6h6v6"/></svg></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cell cell--goods goods">
+          <div class="goods__spec">Φ25 <em>×</em> 9M</div>
+          <div class="goods__meta">
+            <span class="tag tag--cat">螺纹钢</span><span class="tag tag--mat">HRB400E</span><span class="tag tag--stock">现货</span>
+            <span class="meta__i meta__i--place" data-tip="产地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20V10l5 3V10l5 3V8l8 4v8z"/></svg><b>沙钢</b></span>
+            <span class="meta__i meta__i--place" data-tip="发货地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><b>上海鲁南仓</b></span>
+          </div>
+          <div class="qty__inline"><span>重量</span><b>102.480 吨</b><span>·</span><span>整件</span><b>42 捆</b></div>
+        </div>
+        <div class="cell cell--qty qty">
+          <div class="qty__main">102.480<i>吨</i></div>
+          <div class="qty__sub"><span>整件 <b>42 捆</b></span><span>零数 <b>3 支</b></span></div>
+        </div>
+        <div class="cell cell--price price">
+          <div class="price__main"><span class="cur">¥</span><b>3,180.00</b><i>/吨</i></div>
+          <div class="price__sub"><span class="chip--calc">理计 · 含税</span><span class="delta delta--flat">— 0.00</span><span class="ref">昨 3,180.00</span></div>
+        </div>
+        <div class="cell cell--ops ops">
+          <button class="btn btn--primary btn--sm">询价</button>
+          <button class="btn btn--sm btn--ghost">加购</button>
+          <button class="iconbtn" data-tip="在线咨询"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 01-8 8H7l-4 3V12a8 8 0 018-8h2a8 8 0 018 8z"/></svg></button>
+          <button class="iconbtn iconbtn--fav" data-tip="关注"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 9.7l5.4-.8z"/></svg></button>
+          <button class="iconbtn expand" data-expand data-tip="展开明细"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        </div>
+      </div>
+      <div class="row__detail"><div class="dwrap">
+        <div class="dgrid">
+          <div class="d"><span>包装数量</span><b>2.440 吨/捆</b></div>
+          <div class="d"><span>数量</span><b>42 捆 + 3 支</b></div>
+          <div class="d"><span>整件 / 零数</span><b>42 · 3</b></div>
+          <div class="d"><span>单位磅重</span><b>2.44000 吨/捆</b></div>
+          <div class="d"><span>负差</span><b class="neg">-4.0%（国标内）</b></div>
+          <div class="d"><span>昨日价格</span><b>3,180.00 元/吨</b></div>
+          <div class="d"><span>产地</span><b class="txt">江苏沙钢</b></div>
+          <div class="d"><span>发货地</span><b class="txt">上海鲁南仓</b></div>
+          <div class="d"><span>更新时间</span><b>2026-08-18 08:04</b></div>
+        </div>
+        <div class="note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
+          <div><b>备注：</b>提供质保书、材质单、炉批号，可开 13% 专票。支持定尺剪切（加工费另计），上海市内可送到并卸车。</div>
+        </div>
+      </div></div>
+    </article>
+
     <article class="row" data-row>
       <div class="row__main">
         <label class="cell cell--check"><input type="checkbox" class="ck" /><span class="idx">05</span></label>
@@ -915,7 +1119,7 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
           <div class="sup">
             <div class="sup__avatar">新钢</div>
             <div class="sup__body">
-              <div class="sup__name"><a href="#">新钢集散地</a><span class="lv lv--flag">旗舰</span></div>
+              <div class="sup__name"><a href="#">新钢集散地</a><span class="lv lv--flag">旗舰版</span></div>
               <div class="quals">
                 <span class="q q--cert" data-tip="认证商家"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
                 <span class="q q--yard" data-tip="实地验仓"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 10l9-6 9 6v10H3z"/><path d="M9 20v-6h6v6"/></svg></span>
@@ -927,8 +1131,7 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
         <div class="cell cell--goods goods">
           <div class="goods__spec">DA <em>·</em> 通用件</div>
           <div class="goods__meta">
-            <span class="tag tag--cat">五金配件</span>
-            <span class="tag" style="color:var(--text-3)">材质不限</span>
+            <span class="tag tag--cat">五金配件</span><span class="tag">材质不限</span>
             <span class="meta__i meta__i--place" data-tip="发货地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><b>天津大邱庄</b></span>
           </div>
           <div class="qty__inline"><span>重量</span><b>6.000 吨</b><span>·</span><span>整件</span><b>3 件</b></div>
@@ -939,10 +1142,7 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
         </div>
         <div class="cell cell--price price">
           <div class="price__main"><span class="price__ask">电询</span></div>
-          <div class="price__sub">
-            <span class="chip--calc">价格面议</span>
-            <span class="delta delta--flat">—</span>
-          </div>
+          <div class="price__sub"><span class="chip--calc">价格面议</span><span class="delta delta--flat">—</span></div>
         </div>
         <div class="cell cell--ops ops">
           <button class="btn btn--primary btn--sm">询价</button>
@@ -952,127 +1152,60 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
           <button class="iconbtn expand" data-expand data-tip="展开明细"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         </div>
       </div>
-      <div class="row__detail">
-        <div class="dwrap">
-          <div class="dgrid">
-            <div class="d"><span>包装数量</span><b>—</b></div>
-            <div class="d"><span>数量</span><b>3 件</b></div>
-            <div class="d"><span>整件 / 零数</span><b>3 &nbsp;·&nbsp; /</b></div>
-            <div class="d"><span>单位磅重</span><b>2.00000 吨/件</b></div>
-            <div class="d"><span>负差</span><b>—</b></div>
-            <div class="d"><span>昨日价格</span><b>—</b></div>
-            <div class="d"><span>产地</span><b class="txt">—</b></div>
-            <div class="d"><span>发货地</span><b class="txt">天津大邱庄</b></div>
-            <div class="d"><span>更新时间</span><b>2026-08-17 16:22</b></div>
-          </div>
-          <div class="note">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
-            <div><b>备注：</b>配件规格较杂，请把清单（型号 + 数量）发给商家，或点「询价」上传 Excel 清单由 AI 自动识别后报价。</div>
-          </div>
+      <div class="row__detail"><div class="dwrap">
+        <div class="dgrid">
+          <div class="d"><span>包装数量</span><b>—</b></div>
+          <div class="d"><span>数量</span><b>3 件</b></div>
+          <div class="d"><span>整件 / 零数</span><b>3 · /</b></div>
+          <div class="d"><span>单位磅重</span><b>2.00000 吨/件</b></div>
+          <div class="d"><span>负差</span><b>—</b></div>
+          <div class="d"><span>昨日价格</span><b>—</b></div>
+          <div class="d"><span>产地</span><b class="txt">—</b></div>
+          <div class="d"><span>发货地</span><b class="txt">天津大邱庄</b></div>
+          <div class="d"><span>更新时间</span><b>2026-08-17 16:22</b></div>
         </div>
-      </div>
-    </article>
-
-    <!-- ---------- 行 6：普通等级 + 螺纹钢 ---------- -->
-    <article class="row" data-row>
-      <div class="row__main">
-        <label class="cell cell--check"><input type="checkbox" class="ck" /><span class="idx">06</span></label>
-        <div class="cell cell--supplier">
-          <div class="sup">
-            <div class="sup__avatar" style="background:linear-gradient(140deg,rgba(167,139,250,.2),rgba(77,141,255,.14));color:#a78bfa;border-color:rgba(167,139,250,.24)">恒鑫</div>
-            <div class="sup__body">
-              <div class="sup__name"><a href="#">恒鑫物贸（上海）</a><span class="lv lv--normal">普通</span></div>
-              <div class="quals">
-                <span class="q q--cert" data-tip="认证商家"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
-                <span class="q q--yard" data-tip="实地验仓"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 10l9-6 9 6v10H3z"/><path d="M9 20v-6h6v6"/></svg></span>
-              </div>
-            </div>
-          </div>
+        <div class="note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
+          <div><b>备注：</b>配件规格较杂，请把清单（型号 + 数量）发给商家，或点「询价」上传 Excel 清单由 AI 自动识别后报价。</div>
         </div>
-        <div class="cell cell--goods goods">
-          <div class="goods__spec">Φ25 <em>×</em> 9M</div>
-          <div class="goods__meta">
-            <span class="tag tag--cat">螺纹钢</span>
-            <span class="tag tag--mat">HRB400E</span>
-            <span class="tag tag--stock">现货</span>
-            <span class="meta__i meta__i--place" data-tip="产地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V9l7-5 7 5v12z"/></svg><b>沙钢</b></span>
-            <span class="meta__i meta__i--place" data-tip="发货地"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><b>上海鲁南仓</b></span>
-          </div>
-          <div class="qty__inline"><span>重量</span><b>102.480 吨</b><span>·</span><span>整件</span><b>42 捆</b></div>
-        </div>
-        <div class="cell cell--qty qty">
-          <div class="qty__main">102.480<i>吨</i></div>
-          <div class="qty__sub"><span>整件 <b>42 捆</b></span><span>零数 <b>3 支</b></span></div>
-        </div>
-        <div class="cell cell--price price">
-          <div class="price__main"><span class="cur">¥</span><b>3,180.00</b><i>/吨</i></div>
-          <div class="price__sub">
-            <span class="chip--calc">理计 · 含税</span>
-            <span class="delta delta--flat">— 0.00</span>
-            <span class="ref">昨 3,180.00</span>
-          </div>
-        </div>
-        <div class="cell cell--ops ops">
-          <button class="btn btn--primary btn--sm">询价</button>
-          <button class="btn btn--sm btn--ghost">加购</button>
-          <button class="iconbtn" data-tip="在线咨询"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 01-8 8H7l-4 3V12a8 8 0 018-8h2a8 8 0 018 8z"/></svg></button>
-          <button class="iconbtn iconbtn--fav" data-tip="关注"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 9.7l5.4-.8z"/></svg></button>
-          <button class="iconbtn expand" data-expand data-tip="展开明细"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
-        </div>
-      </div>
-      <div class="row__detail">
-        <div class="dwrap">
-          <div class="dgrid">
-            <div class="d"><span>包装数量</span><b>2.440 吨/捆</b></div>
-            <div class="d"><span>数量</span><b>42 捆 + 3 支</b></div>
-            <div class="d"><span>整件 / 零数</span><b>42 &nbsp;·&nbsp; 3</b></div>
-            <div class="d"><span>单位磅重</span><b>2.44000 吨/捆</b></div>
-            <div class="d"><span>负差</span><b class="neg">-4.0%（国标内）</b></div>
-            <div class="d"><span>昨日价格</span><b>3,180.00 元/吨</b></div>
-            <div class="d"><span>产地</span><b class="txt">江苏沙钢</b></div>
-            <div class="d"><span>发货地</span><b class="txt">上海鲁南仓</b></div>
-            <div class="d"><span>更新时间</span><b>2026-08-18 08:04</b></div>
-          </div>
-          <div class="note">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
-            <div><b>备注：</b>提供质保书、材质单、炉批号，可开 13% 专票。支持定尺剪切（加工费另计），上海市内可送到并卸车。</div>
-          </div>
-        </div>
-      </div>
+      </div></div>
     </article>
 
   </div>
 
-  <!-- ============ 紧凑视图：真表格（列可配置） ============ -->
+  <!-- ==================== 紧凑表格视图 ==================== -->
   <div class="tablewrap">
     <table class="grid">
       <thead>
         <tr>
-          <th class="stick">序号</th>
-          <th class="stick2">供应商 / 等级 / 资质</th>
-          <th>品类</th>
-          <th data-col="spec">规格</th>
-          <th data-col="caizhi">材质</th>
-          <th class="num" data-col="zhengjian">整件</th>
-          <th class="num" data-col="lingshu">零数</th>
-          <th class="num" data-col="baozhuang">包装数量</th>
-          <th class="num" data-col="shuliang">数量</th>
-          <th class="num" data-col="zhongliang">重量(吨)</th>
-          <th class="num" data-col="bangzhong">单位磅重</th>
-          <th class="num" data-col="fucha">负差</th>
-          <th class="num">单价(元)</th>
+          <th class="stick">序号</th><th class="stick2">供应商 / 等级</th><th>品类</th>
+          <th data-col="spec">规格</th><th data-col="caizhi">材质</th>
+          <th class="num" data-col="zhengjian">整件</th><th class="num" data-col="lingshu">零数</th>
+          <th class="num" data-col="baozhuang">包装数量</th><th class="num" data-col="shuliang">数量</th>
+          <th class="num" data-col="zhongliang">重量(吨)</th><th class="num" data-col="bangzhong">单位磅重</th>
+          <th class="num" data-col="fucha">负差</th><th class="num">单价(元)</th>
           <th class="num" data-col="zuori">昨日价格</th>
-          <th data-col="chandi">产地</th>
-          <th data-col="fahuodi">发货地</th>
-          <th data-col="gengxin">更新时间</th>
-          <th data-col="beizhu">备注</th>
-          <th>操作</th>
+          <th data-col="chandi">产地</th><th data-col="fahuodi">发货地</th>
+          <th data-col="gengxin">更新时间</th><th data-col="beizhu">备注</th><th>操作</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="stick num">01</td>
-          <td class="stick2">新钢集散地 <span class="lv lv--flag">旗舰</span></td>
+          <td class="stick num">01</td><td class="stick2">新钢集散地 <span class="lv lv--flag">旗舰版</span></td>
+          <td>矩管</td><td class="spec" data-col="spec">6000*200*3.0</td><td data-col="caizhi">Q235B</td>
+          <td class="num" data-col="zhengjian">49 件</td><td class="num" data-col="lingshu">/</td>
+          <td class="num" data-col="baozhuang">20 支/件</td><td class="num" data-col="shuliang">980</td>
+          <td class="num" data-col="zhongliang">38.813</td><td class="num" data-col="bangzhong">0.79210</td>
+          <td class="num" data-col="fucha" style="color:var(--up)">-0.15mm</td>
+          <td class="pri">3,450.00 <span style="color:var(--down);font-size:11px">▼1150.00</span></td>
+          <td class="num" data-col="zuori">4,600.00</td>
+          <td data-col="chandi">天津友发</td><td data-col="fahuodi">天津大邱庄</td>
+          <td class="num" data-col="gengxin">08-18 08:06</td>
+          <td data-col="beizhu" style="max-width:200px;overflow:hidden;text-overflow:ellipsis">过磅计价，磅差以核验磅单为准…</td>
+          <td><button class="btn btn--primary btn--sm">询价</button></td>
+        </tr>
+        <tr>
+          <td class="stick num">02</td><td class="stick2">新钢集散地 <span class="lv lv--flag">旗舰版</span></td>
           <td>镀锌圆管</td><td class="spec" data-col="spec">1寸*2.75</td><td data-col="caizhi">Q235B</td>
           <td class="num" data-col="zhengjian">/</td><td class="num" data-col="lingshu">71 支</td>
           <td class="num" data-col="baozhuang">—</td><td class="num" data-col="shuliang">71</td>
@@ -1086,38 +1219,7 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
           <td><button class="btn btn--primary btn--sm">询价</button></td>
         </tr>
         <tr>
-          <td class="stick num">02</td>
-          <td class="stick2">新钢集散地 <span class="lv lv--flag">旗舰</span></td>
-          <td>镀锌圆管</td><td class="spec" data-col="spec">478*5.5</td><td data-col="caizhi">Q235B</td>
-          <td class="num" data-col="zhengjian">49 件</td><td class="num" data-col="lingshu">/</td>
-          <td class="num" data-col="baozhuang">20 支/件</td><td class="num" data-col="shuliang">980</td>
-          <td class="num" data-col="zhongliang">38.813</td><td class="num" data-col="bangzhong">0.79210</td>
-          <td class="num" data-col="fucha" style="color:var(--up)">-0.15mm</td>
-          <td class="pri">3,450.00 <span style="color:var(--down);font-size:11px">▼1150.00</span></td>
-          <td class="num" data-col="zuori">4,600.00</td>
-          <td data-col="chandi">唐山正大</td><td data-col="fahuodi">天津大邱庄</td>
-          <td class="num" data-col="gengxin">08-18 07:58</td>
-          <td data-col="beizhu" style="max-width:200px;overflow:hidden;text-overflow:ellipsis">过磅计价，磅差以核验磅单为准…</td>
-          <td><button class="btn btn--primary btn--sm">询价</button></td>
-        </tr>
-        <tr>
-          <td class="stick num">03</td>
-          <td class="stick2">新钢集散地 <span class="lv lv--flag">旗舰</span></td>
-          <td>镀锌圆管</td><td class="spec" data-col="spec">6分*1.7</td><td data-col="caizhi">Q195</td>
-          <td class="num" data-col="zhengjian">/</td><td class="num" data-col="lingshu">100 支</td>
-          <td class="num" data-col="baozhuang">—</td><td class="num" data-col="shuliang">100</td>
-          <td class="num" data-col="zhongliang">0.653</td><td class="num" data-col="bangzhong">0.00653</td>
-          <td class="num" data-col="fucha" style="color:var(--up)">-3.0%</td>
-          <td class="pri">3,450.00 <span style="color:var(--down);font-size:11px">▼1150.00</span></td>
-          <td class="num" data-col="zuori">4,600.00</td>
-          <td data-col="chandi">天津华岐</td><td data-col="fahuodi">天津大邱庄</td>
-          <td class="num" data-col="gengxin">08-18 07:41</td>
-          <td data-col="beizhu" style="max-width:200px;overflow:hidden;text-overflow:ellipsis">剩余零散100支，先到先得…</td>
-          <td><button class="btn btn--primary btn--sm">询价</button></td>
-        </tr>
-        <tr>
-          <td class="stick num">04</td>
-          <td class="stick2">正大钢管销售中心 <span class="lv lv--gold">金牌</span></td>
+          <td class="stick num">03</td><td class="stick2">正大钢管销售中心 <span class="lv lv--zx">尊享版</span></td>
           <td>镀锌圆管</td><td class="spec" data-col="spec">4分*1.8</td><td data-col="caizhi">Q235B</td>
           <td class="num" data-col="zhengjian">/</td><td class="num" data-col="lingshu">123 支</td>
           <td class="num" data-col="baozhuang">—</td><td class="num" data-col="shuliang">123</td>
@@ -1131,23 +1233,7 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
           <td><button class="btn btn--primary btn--sm">询价</button></td>
         </tr>
         <tr>
-          <td class="stick num">05</td>
-          <td class="stick2">新钢集散地 <span class="lv lv--flag">旗舰</span></td>
-          <td>五金配件</td><td class="spec" data-col="spec">da</td><td data-col="caizhi">—</td>
-          <td class="num" data-col="zhengjian">3 件</td><td class="num" data-col="lingshu">/</td>
-          <td class="num" data-col="baozhuang">—</td><td class="num" data-col="shuliang">3</td>
-          <td class="num" data-col="zhongliang">6.000</td><td class="num" data-col="bangzhong">2.00000</td>
-          <td class="num" data-col="fucha">—</td>
-          <td class="pri" style="color:var(--blue)">电询</td>
-          <td class="num" data-col="zuori">—</td>
-          <td data-col="chandi">—</td><td data-col="fahuodi">天津大邱庄</td>
-          <td class="num" data-col="gengxin">08-17 16:22</td>
-          <td data-col="beizhu" style="max-width:200px;overflow:hidden;text-overflow:ellipsis">配件规格较杂，请发清单…</td>
-          <td><button class="btn btn--primary btn--sm">询价</button></td>
-        </tr>
-        <tr>
-          <td class="stick num">06</td>
-          <td class="stick2">恒鑫物贸（上海） <span class="lv lv--normal">普通</span></td>
+          <td class="stick num">04</td><td class="stick2">恒鑫物贸（上海） <span class="lv lv--gold">认证版</span></td>
           <td>螺纹钢</td><td class="spec" data-col="spec">Φ25*9M</td><td data-col="caizhi">HRB400E</td>
           <td class="num" data-col="zhengjian">42 捆</td><td class="num" data-col="lingshu">3 支</td>
           <td class="num" data-col="baozhuang">2.440 吨/捆</td><td class="num" data-col="shuliang">42+3</td>
@@ -1160,41 +1246,45 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
           <td data-col="beizhu" style="max-width:200px;overflow:hidden;text-overflow:ellipsis">提供质保书、材质单、炉批号…</td>
           <td><button class="btn btn--primary btn--sm">询价</button></td>
         </tr>
+        <tr>
+          <td class="stick num">05</td><td class="stick2">新钢集散地 <span class="lv lv--flag">旗舰版</span></td>
+          <td>五金配件</td><td class="spec" data-col="spec">da</td><td data-col="caizhi">—</td>
+          <td class="num" data-col="zhengjian">3 件</td><td class="num" data-col="lingshu">/</td>
+          <td class="num" data-col="baozhuang">—</td><td class="num" data-col="shuliang">3</td>
+          <td class="num" data-col="zhongliang">6.000</td><td class="num" data-col="bangzhong">2.00000</td>
+          <td class="num" data-col="fucha">—</td>
+          <td class="pri" style="color:var(--tech)">电询</td>
+          <td class="num" data-col="zuori">—</td>
+          <td data-col="chandi">—</td><td data-col="fahuodi">天津大邱庄</td>
+          <td class="num" data-col="gengxin">08-17 16:22</td>
+          <td data-col="beizhu" style="max-width:200px;overflow:hidden;text-overflow:ellipsis">配件规格较杂，请发清单…</td>
+          <td><button class="btn btn--primary btn--sm">询价</button></td>
+        </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- ============ 分页 ============ -->
   <nav class="pager">
-    <button>‹</button>
-    <button aria-current="page">1</button>
-    <button>2</button><button>3</button><button>4</button>
-    <span>…</span><button>65</button>
-    <button>›</button>
-    <span>每页 20 条</span>
+    <button>‹</button><button aria-current="page">1</button><button>2</button><button>3</button><button>4</button>
+    <span>…</span><button>65</button><button>›</button><span>每页 20 条</span>
   </nav>
 </div>
 
-<!-- ============ 批量操作条 ============ -->
+<!-- 批量条 -->
 <div class="batchbar" id="batchbar">
   <span class="batchbar__n">已选 <b id="batchN">0</b> 条资源</span>
   <button class="btn btn--primary btn--sm">批量询价</button>
   <button class="btn btn--sm">加入采购单</button>
   <button class="btn btn--sm">对比</button>
-  <button class="iconbtn" id="batchClear" data-tip="取消选择">
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
-  </button>
+  <button class="iconbtn" id="batchClear" data-tip="取消选择"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
 </div>
 
-<!-- ============ 列配置抽屉 ============ -->
+<!-- 列配置抽屉 -->
 <div class="drawer" id="drawer">
   <div class="drawer__mask" data-close></div>
   <div class="drawer__panel">
     <div class="drawer__hd">
-      <div style="flex:1">
-        <h3>列配置</h3>
-        <p>关闭的字段仍可在行展开层中查看</p>
-      </div>
+      <div style="flex:1"><h3>列配置</h3><p>关闭的字段仍可在行展开层中查看</p></div>
       <button class="iconbtn" data-close><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <div class="drawer__bd">
@@ -1241,12 +1331,104 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
 (function(){
   const html = document.documentElement;
 
-  /* 主题切换 */
+  /* ---------- 品类 → 规格维度映射 ----------
+     钢铁行业不同品类的规格维度不同，公差档位也应随维度而变：
+     壁厚 ±1mm 在钢管里是完全不同的产品，而定尺长度 ±1mm 几乎无意义。
+     生产环境建议把这张表做成后台可配置（品类 × 维度 × 档位）。            */
+  const DIM_MAP = {
+    '矩管':      [['长度','mm',[1,5,10],6000],['宽度','mm',[1,2,5],200],['壁厚','mm',[0.05,0.1,0.2],3.0]],
+    '方管':      [['边长','mm',[1,2,5],100],['壁厚','mm',[0.05,0.1,0.2],3.0],['定尺','mm',[5,10,50],6000]],
+    '镀锌圆管':  [['外径','mm',[0.5,1,2],33.7],['壁厚','mm',[0.05,0.1,0.2],2.75],['定尺','mm',[5,10,50],6000]],
+    '焊接钢管':  [['外径','mm',[0.5,1,2],48.3],['壁厚','mm',[0.05,0.1,0.2],3.0],['定尺','mm',[5,10,50],6000]],
+    '螺纹钢':    [['直径','mm',[0,1,2],25],['定尺','m',[0,0.5,1],9]],
+    '热轧卷板':  [['厚度','mm',[0.02,0.05,0.1],3.0],['宽度','mm',[2,5,10],1500]],
+    '中厚板':    [['厚度','mm',[0.1,0.2,0.5],20],['宽度','mm',[5,10,50],2000],['长度','mm',[10,50,100],6000]],
+    '角钢':      [['边宽','mm',[1,2,5],50],['厚度','mm',[0.1,0.2,0.5],5],['定尺','m',[0,0.5,1],6]],
+    'H型钢':     [['高','mm',[1,2,5],200],['宽','mm',[1,2,5],100],['腹板厚','mm',[0.1,0.2,0.5],5.5]],
+    '五金配件':  []
+  };
+  const fmt = n => Number.isInteger(n) ? n : (+n).toFixed(String(n).split('.')[1]?.length || 2);
+
+  function renderDims(cat){
+    const box = document.getElementById('dimbox');
+    const dims = DIM_MAP[cat];
+    const hasDims = Array.isArray(dims) && dims.length > 0;
+
+    document.getElementById('dimCat').textContent = cat || '—';
+    document.getElementById('dimList').textContent = hasDims ? dims.map(d => d[0]).join(' × ') : '—';
+    document.getElementById('dimBody').style.display = hasDims ? '' : 'none';
+    document.getElementById('lockHint').style.display = hasDims ? 'none' : '';
+    box.classList.toggle('is-locked', !hasDims);
+    if(!hasDims) return;
+
+    document.getElementById('dims').innerHTML = dims.map(([name, unit, steps, def], i) => `
+      <div class="dim" data-dim>
+        <div class="dim__lb">${name}</div>
+        <div class="dim__in">
+          <input type="text" value="${i === 0 ? def : ''}" placeholder="基准值" data-val />
+          <span>${unit}</span>
+        </div>
+        <div class="seg seg--mono dim__tol" data-tol>
+          <button aria-pressed="${i === 0 ? 'true' : 'false'}" data-t="0">精准</button>
+          ${steps.filter(s => s > 0).map((s, k) =>
+            `<button aria-pressed="false" data-t="${s}">±${fmt(s)}</button>`).join('')}
+          <button aria-pressed="false" data-t="custom">自定</button>
+        </div>
+        <div class="dim__out is-empty" data-out>输入基准值后显示匹配区间</div>
+      </div>`).join('');
+
+    document.querySelectorAll('[data-dim]').forEach(bindDim);
+  }
+
+  function bindDim(row){
+    const input = row.querySelector('[data-val]');
+    const out   = row.querySelector('[data-out]');
+    const unit  = row.querySelector('.dim__in span').textContent;
+    const segBs = row.querySelectorAll('[data-tol] button');
+
+    function update(){
+      const v = parseFloat(input.value);
+      const on = row.querySelector('[data-tol] button[aria-pressed="true"]');
+      const t  = on ? on.dataset.t : '0';
+      if(isNaN(v)){
+        out.textContent = '输入基准值后显示匹配区间';
+        out.classList.add('is-empty');
+        return;
+      }
+      out.classList.remove('is-empty');
+      if(t === '0'){ out.textContent = `精确匹配 ${fmt(v)} ${unit}`; }
+      else if(t === 'custom'){ out.textContent = `自定义区间 · 请输入上下限`; }
+      else {
+        const d = parseFloat(t);
+        out.textContent = `匹配 ${fmt(+(v - d).toFixed(3))} ~ ${fmt(+(v + d).toFixed(3))} ${unit}`;
+      }
+    }
+    input.addEventListener('input', update);
+    segBs.forEach(b => b.addEventListener('click', () => {
+      segBs.forEach(x => x.setAttribute('aria-pressed', 'false'));
+      b.setAttribute('aria-pressed', 'true');
+      update();
+    }));
+    update();
+  }
+
+  const catInput = document.getElementById('catInput');
+  catInput.addEventListener('change', () => renderDims(catInput.value.trim()));
+  catInput.addEventListener('input', () => {
+    if(DIM_MAP[catInput.value.trim()] !== undefined) renderDims(catInput.value.trim());
+  });
+  document.getElementById('catPick').addEventListener('click', () => {
+    const keys = Object.keys(DIM_MAP);
+    const next = keys[(keys.indexOf(catInput.value.trim()) + 1) % keys.length];
+    catInput.value = next;
+    renderDims(next);
+  });
+  renderDims('矩管');
+
+  /* 主题 / 视图 / 折叠 */
   document.getElementById('themeBtn').addEventListener('click', () => {
     html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
   });
-
-  /* 视图切换 */
   const vc = document.getElementById('vComfy'), vt = document.getElementById('vTable');
   function setView(v){
     html.dataset.view = v;
@@ -1257,27 +1439,31 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
   vt.addEventListener('click', () => setView('table'));
   setView(html.dataset.view || 'comfy');
 
-  /* 行展开 */
-  document.querySelectorAll('[data-expand]').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      btn.closest('[data-row]').classList.toggle('is-open');
-    });
+  const foldBtn = document.getElementById('foldBtn');
+  foldBtn.addEventListener('click', () => {
+    const bd = document.querySelector('.panel__bd');
+    const folded = bd.style.display === 'none';
+    bd.style.display = folded ? '' : 'none';
+    foldBtn.innerHTML = folded
+      ? '收起<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 15l6-6 6 6"/></svg>'
+      : '展开<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg>';
   });
 
-  /* 勾选 + 批量条 */
+  /* 行展开 / 勾选 */
+  document.querySelectorAll('[data-expand]').forEach(btn => btn.addEventListener('click', e => {
+    e.stopPropagation();
+    btn.closest('[data-row]').classList.toggle('is-open');
+  }));
   const bar = document.getElementById('batchbar'), badge = document.getElementById('batchN');
   function sync(){
     const n = document.querySelectorAll('.list .ck:checked').length;
     badge.textContent = n;
     bar.classList.toggle('is-show', n > 0);
   }
-  document.querySelectorAll('.list .ck').forEach(ck => {
-    ck.addEventListener('change', () => {
-      ck.closest('[data-row]').classList.toggle('is-checked', ck.checked);
-      sync();
-    });
-  });
+  document.querySelectorAll('.list .ck').forEach(ck => ck.addEventListener('change', () => {
+    ck.closest('[data-row]').classList.toggle('is-checked', ck.checked);
+    sync();
+  }));
   document.getElementById('batchClear').addEventListener('click', () => {
     document.querySelectorAll('.list .ck').forEach(ck => {
       ck.checked = false;
@@ -1286,48 +1472,57 @@ html[data-theme="light"] .pager button[aria-current="page"]{color:#fff}
     sync();
   });
 
-  /* 列配置抽屉 */
+  /* 列配置 */
   const drawer = document.getElementById('drawer');
   document.getElementById('colBtn').addEventListener('click', () => drawer.classList.add('is-open'));
-  drawer.querySelectorAll('[data-close]').forEach(el =>
-    el.addEventListener('click', () => drawer.classList.remove('is-open'))
-  );
+  drawer.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => drawer.classList.remove('is-open')));
   function applyCols(){
-    const hidden = [...document.querySelectorAll('[data-col-toggle]')]
-      .filter(i => !i.checked).map(i => i.dataset.colToggle);
-    html.dataset.hide = hidden.join(' ');
+    html.dataset.hide = [...document.querySelectorAll('[data-col-toggle]')]
+      .filter(i => !i.checked).map(i => i.dataset.colToggle).join(' ');
   }
   document.querySelectorAll('[data-col-toggle]').forEach(i => i.addEventListener('change', applyCols));
   document.getElementById('colReset').addEventListener('click', () => {
     const def = ['caizhi','zhongliang','zhengjian','lingshu','fucha','zuori','chandi','fahuodi','gengxin'];
-    document.querySelectorAll('[data-col-toggle]').forEach(i => {
-      i.checked = def.includes(i.dataset.colToggle);
-    });
+    document.querySelectorAll('[data-col-toggle]').forEach(i => i.checked = def.includes(i.dataset.colToggle));
     applyCols();
   });
   applyCols();
 
-  /* 筛选 chip / 表头排序（视觉演示） */
-  document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+  /* chips 多选、seg 单选、已选条件删除 */
+  document.querySelectorAll('.chips .chip').forEach(c => c.addEventListener('click', () => {
     c.setAttribute('aria-pressed', c.getAttribute('aria-pressed') !== 'true');
   }));
+  document.querySelectorAll('.fitem .seg, .toolbar .seg').forEach(seg => {
+    if(seg.id) return;
+    seg.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+      seg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed','false'));
+      b.setAttribute('aria-pressed','true');
+    }));
+  });
+  function syncPicked(){
+    document.getElementById('pickedN').textContent = document.querySelectorAll('.ptag').length;
+  }
+  document.querySelectorAll('[data-x]').forEach(x => x.addEventListener('click', () => {
+    x.closest('.ptag').remove();
+    syncPicked();
+  }));
+  document.getElementById('clearAll').addEventListener('click', () => {
+    document.querySelectorAll('.ptag').forEach(t => t.remove());
+    syncPicked();
+  });
+
+  /* 表头排序（视觉） */
   document.querySelectorAll('.thead__cell .sorter').forEach(s => {
     s.parentElement.addEventListener('click', () => {
       document.querySelectorAll('.thead__cell').forEach(c => c.classList.remove('is-sort'));
       s.parentElement.classList.add('is-sort');
     });
   });
-
-  /* 关注按钮 */
-  document.querySelectorAll('.iconbtn--fav').forEach(b => b.addEventListener('click', () => {
-    b.classList.toggle('is-on');
-  }));
-
-  /* 快捷键：/ 聚焦搜索 */
+  document.querySelectorAll('.iconbtn--fav').forEach(b => b.addEventListener('click', () => b.classList.toggle('is-on')));
   document.addEventListener('keydown', e => {
     if(e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)){
       e.preventDefault();
-      document.querySelector('.searchbox input').focus();
+      document.querySelector('.gsearch input').focus();
     }
   });
 })();
